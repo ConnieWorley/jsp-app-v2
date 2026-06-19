@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fa; padding: 20px; }
+  h2 { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .subtitle { font-size: 11px; color: #666; margin-bottom: 16px; }
+  .diagram { background: white; border: 1px solid #ccc; border-radius: 6px; overflow: hidden; }
+  .pool-label { background: #1a3a2e; color: white; font-size: 12px; font-weight: 700; padding: 10px 16px; letter-spacing: 0.5px; }
+  .lane { display: flex; border-bottom: 1px solid #ddd; min-height: 96px; }
+  .lane:last-child { border-bottom: none; }
+  .lane-label { width: 130px; min-width: 130px; background: #1e5c3a; color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; line-height: 1.5; border-right: 2px solid #1a3a2e; }
+  .lane-label.app { background: #2c4a7c; }
+  .lane-label.ai  { background: #6b2d8b; }
+  .lane-label.sys { background: #4a5568; }
+  .lane-content { flex: 1; padding: 12px 14px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .event-start { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: 3px solid #27ae60; background: #eafaf1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #27ae60; font-weight: 700; }
+  .event-end   { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: 5px solid #1a3a2e; background: #eafaf1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #1a3a2e; font-weight: 700; }
+  .task { background: #eaf0fb; border: 1.5px solid #5b7fce; border-radius: 6px; padding: 6px 9px; font-size: 10px; color: #1a1a2e; text-align: center; line-height: 1.3; min-width: 90px; max-width: 112px; }
+  .task.app  { background: #eaf0fb; border-color: #2c4a7c; }
+  .task.ai   { background: #f5eafb; border-color: #6b2d8b; color: #4a1a6b; }
+  .task.user { background: #eafaf1; border-color: #1e5c3a; }
+  .task.gate { background: #fff8e1; border: 2px solid #f39c12; color: #7d5a00; font-weight: 600; }
+  .gateway-wrap { width: 40px; height: 40px; min-width: 40px; display: flex; align-items: center; justify-content: center; }
+  .gateway { width: 34px; height: 34px; background: #fff8e1; border: 2px solid #f39c12; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; }
+  .gateway span { transform: rotate(-45deg); font-size: 11px; color: #d68910; font-weight: 900; }
+  .arrow { color: #888; font-size: 15px; min-width: 10px; text-align: center; }
+  .note { font-size: 9px; color: #555; font-style: italic; margin-top: 2px; max-width: 112px; text-align: center; line-height: 1.2; }
+  .note.purple { color: #6b2d8b; }
+  .note.blue   { color: #2c4a7c; }
+  .note.green  { color: #1e5c3a; }
+  .note.orange { color: #d68910; font-weight: 600; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 10px; color: #444; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .swatch { width: 18px; height: 13px; border-radius: 3px; }
+  .swatch.user { background: #eafaf1; border: 1.5px solid #1e5c3a; }
+  .swatch.app  { background: #eaf0fb; border: 1.5px solid #2c4a7c; }
+  .swatch.ai   { background: #f5eafb; border: 1.5px solid #6b2d8b; }
+  .swatch.gate { background: #fff8e1; border: 2px solid #f39c12; }
+  .finding { background: #eafaf1; border-left: 4px solid #27ae60; padding: 10px 14px; margin-top: 14px; font-size: 10px; color: #444; border-radius: 0 4px 4px 0; line-height: 1.6; }
+  .finding strong { color: #1e5c3a; }
+</style>
+</head>
+<body>
+<h2>JSP App v2 — Future State BPMN: Stage 4 — Interview Prep</h2>
+<p class="subtitle">Redesigned process &nbsp;|&nbsp; Process Analyst view &nbsp;|&nbsp; Triggered automatically when status changes to Interview Scheduled</p>
+<div class="diagram">
+  <div class="pool-label">FUTURE STATE — Stage 4: Interview Prep (JSP App v2)</div>
+  <div class="lane">
+    <div class="lane-label">Job Seeker</div>
+    <div class="lane-content">
+      <div class="cell"><div class="event-start">S</div><div class="note">Start: Status set to Interview Scheduled; prep checklist auto-triggered</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Review top 4 matched stories</div><div class="note green">Re-surfaced from Stage 1; reflect any storybank edits</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Review + practice elevator pitch</div><div class="note green">Pulled from setup; editable in place</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Research each interviewer</div><div class="note green">AI prompt surfaces: what to research and how to use it in the interview</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Prepare 3–5 questions to ask</div><div class="note green">Checklist item</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Review JD one more time</div><div class="note green">Checklist item</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Confirm interview logistics</div><div class="note green">Time, location, format, contacts</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="event-end">E</div><div class="note green">End: Interview complete; status updated</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label app">JSP App v2</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task app">Auto-trigger interview prep checklist on status → Interview Scheduled</div><div class="note blue">No manual setup required</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Re-surface top 4 story matches from Stage 1</div><div class="note blue">Updated if storybank edited since intake</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Surface elevator pitch for review + edit</div><div class="note blue">Links to Setup if pitch not yet built</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Apply follow-up schedule offsets to checklist items</div><div class="note blue">Due date = prior item completion + offset from setup</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Surface external practice tool recommendations</div><div class="note blue">Static curated list; always accessible</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Allow custom checklist items + due date overrides</div><div class="note blue">User controls final list</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label ai">AI / Prompt<br>Engineer</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task ai">Story Match re-run: re-rank storybank against JD</div><div class="note purple">Reflects any edits since Stage 1; top 4 surfaced</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">AI rationale per story: why this story fits this JD</div><div class="note purple">Carried from Stage 1; updated if re-ranked</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">Interviewer research prompt: what to look for, what to note, how to use it</div><div class="note purple">Surfaces when user opens research checklist item; AI guides, user researches</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">User can adjust number of stories surfaced</div><div class="note purple">Default 4; configurable per checklist item</div></div>
+    </div>
+  </div>
+  <div class="lane" style="background:#fafafa;">
+    <div class="lane-label sys">Default Checklist<br>Items + Due Date Logic</div>
+    <div class="lane-content" style="gap:10px; flex-wrap:wrap; align-items:flex-start; padding-top:14px;">
+      <div class="task app" style="max-width:145px;">Review top 4 matched stories<br><span style="font-size:9px; color:#2c4a7c;">Due: offset from Interview Scheduled date</span></div>
+      <div class="task app" style="max-width:145px;">Practice elevator pitch<br><span style="font-size:9px; color:#2c4a7c;">Due: offset from prior item</span></div>
+      <div class="task app" style="max-width:145px;">Research each interviewer on LinkedIn<br><span style="font-size:9px; color:#2c4a7c;">Due: offset from prior item</span></div>
+      <div class="task app" style="max-width:145px;">Prepare 3–5 questions to ask<br><span style="font-size:9px; color:#2c4a7c;">Due: offset from prior item</span></div>
+      <div class="task app" style="max-width:145px;">Review JD one more time<br><span style="font-size:9px; color:#2c4a7c;">Due: offset from prior item</span></div>
+      <div class="task app" style="max-width:145px;">Confirm interview logistics<br><span style="font-size:9px; color:#2c4a7c;">Due: offset from prior item</span></div>
+    </div>
+  </div>
+</div>
+<div class="legend">
+  <strong>Legend:</strong>
+  <div class="legend-item"><div class="swatch user"></div> Job Seeker action</div>
+  <div class="legend-item"><div class="swatch app"></div> App action / data</div>
+  <div class="legend-item"><div class="swatch ai"></div> AI action (named prompt)</div>
+  <div class="legend-item"><div class="swatch gate"></div> Decision / gate</div>
+  <div class="legend-item">S = Start &nbsp; E = End</div>
+</div>
+<div class="finding">
+  <strong>What changed:</strong> Interview prep is no longer a scramble. The moment status moves to Interview Scheduled, the app surfaces the right stories (matched to this specific JD), the elevator pitch, and a structured checklist — all automatically. Due dates cascade from prior item completion so prep is paced, not crammed. An AI prompt guides interviewer research so the job seeker knows what to look for and how to use it. The job seeker walks in having done the work in order, not hoping they remembered what mattered.
+</div>
+</body>
+</html>

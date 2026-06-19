@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fa; padding: 20px; }
+  h2 { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .subtitle { font-size: 11px; color: #666; margin-bottom: 16px; }
+  .diagram { background: white; border: 1px solid #ccc; border-radius: 6px; overflow: hidden; }
+  .pool-label { background: #1a1a2e; color: white; font-size: 12px; font-weight: 700; padding: 10px 16px; letter-spacing: 0.5px; }
+  .lane { display: flex; border-bottom: 1px solid #ddd; min-height: 96px; }
+  .lane:last-child { border-bottom: none; }
+  .lane-label { width: 130px; min-width: 130px; background: #2d3561; color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; line-height: 1.5; border-right: 2px solid #1a1a2e; }
+  .lane-content { flex: 1; padding: 12px 14px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .event-start { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: 3px solid #27ae60; background: #eafaf1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #27ae60; font-weight: 700; }
+  .event-end { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: 5px solid #e74c3c; background: #fdf0f0; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #e74c3c; font-weight: 700; }
+  .task { background: #eaf0fb; border: 1.5px solid #5b7fce; border-radius: 6px; padding: 6px 9px; font-size: 10px; color: #1a1a2e; text-align: center; line-height: 1.3; min-width: 88px; max-width: 108px; }
+  .task.manual { background: #fef9e7; border-color: #d4ac0d; }
+  .task.gap { background: #fdf0f0; border: 1.5px dashed #e74c3c; color: #c0392b; }
+  .task.tool { background: #eafaf1; border-color: #27ae60; }
+  .task.tools-box { background: #eafaf1; border-color: #27ae60; max-width: 130px; font-size: 10px; }
+  .gateway-wrap { width: 38px; height: 38px; min-width: 38px; display: flex; align-items: center; justify-content: center; }
+  .gateway { width: 34px; height: 34px; background: #fff8e1; border: 2px solid #f39c12; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; }
+  .gateway span { transform: rotate(-45deg); font-size: 12px; color: #d68910; font-weight: 900; }
+  .arrow { color: #888; font-size: 15px; min-width: 10px; text-align: center; }
+  .note { font-size: 9px; color: #666; font-style: italic; margin-top: 2px; max-width: 108px; text-align: center; line-height: 1.2; }
+  .note.red { color: #c0392b; }
+  .note.green { color: #1e8449; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 10px; color: #444; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .swatch { width: 18px; height: 13px; border-radius: 3px; }
+  .swatch.blue { background: #eaf0fb; border: 1.5px solid #5b7fce; }
+  .swatch.yellow { background: #fef9e7; border: 1.5px solid #d4ac0d; }
+  .swatch.red { background: #fdf0f0; border: 1.5px dashed #e74c3c; }
+  .swatch.green { background: #eafaf1; border: 1.5px solid #27ae60; }
+  .finding { background: #fff3cd; border-left: 4px solid #f39c12; padding: 10px 14px; margin-top: 14px; font-size: 10px; color: #444; border-radius: 0 4px 4px 0; line-height: 1.6; }
+  .finding strong { color: #d68910; }
+</style>
+</head>
+<body>
+<h2>JSP App v2 — Current State BPMN</h2>
+<p class="subtitle">End-to-end job search process as it exists today &nbsp;|&nbsp; Process Analyst view &nbsp;|&nbsp; Pre JSP App v2</p>
+<div class="diagram">
+  <div class="pool-label">CURRENT STATE — Manual Job Search Process (Pre JSP App v2)</div>
+  <div class="lane">
+    <div class="lane-label">Job Seeker<br>Job Discovery</div>
+    <div class="lane-content">
+      <div class="cell"><div class="event-start">S</div><div class="note">Start: Job search active</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task tool">Browse selected job boards</div><div class="note green">Alerts configured manually</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gap">Review posting; gut-check fit</div><div class="note red">No criteria framework</div></div>
+      <div class="arrow">→</div>
+      <div class="gateway-wrap"><div class="gateway"><span>◇</span></div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task tool">Save to kanban; AI scores vs 1 resume; star rating</div><div class="note green">65%+ threshold</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label">Job Seeker<br>Application Prep</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task manual">Create company folder in OneDrive</div><div class="note red">Manual overhead; no template</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task manual">Copy resume; rename; change title</div><div class="note red">From memory; no checklist</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task manual">Scan JD; reorder skills; save as PDF</div><div class="note red">Ad hoc; inconsistent depth</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gap">Cover letter: draft, tailor, or skip?</div><div class="note red">No criteria; inconsistent</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gap">Company research (rabbit hole risk)</div><div class="note red">No scope or structure; time drain</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label">Job Seeker<br>Submission</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task">Navigate to company ATS</div><div class="note">Each system is different</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gap">Re-enter resume data into ATS</div><div class="note red">Time drain; out of scope to fix</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task tool">Submit; update kanban status manually</div><div class="note green">Tracker updated</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label">Job Seeker<br>Networking</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task gap">Identify connections (ad hoc)</div><div class="note red">No trigger; easy to skip</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task tool">Save contact to networking kanban</div><div class="note green">Separate kanban board</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gap">Draft outreach from scratch</div><div class="note red">No template; no AI assist</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task tool">Send via email / LinkedIn</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gap">Follow up? No reminder</div><div class="note red">Falls through the cracks</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label">Job Seeker<br>Interview Prep</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task gap">Interview scheduled — prep begins</div><div class="note red">No structured trigger</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task tool">Locate stories in Google Drive (coaching docs)</div><div class="note green">Stories exist; not matched to JD</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gap">Manually review all stories; pick relevant ones</div><div class="note red">No ranking; cognitive load</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gap">Research interviewers (ad hoc)</div><div class="note red">No checklist; inconsistent</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="event-end">E</div><div class="note red">End: Submitted; prep inconsistent</div></div>
+    </div>
+  </div>
+  <div class="lane" style="background:#fafafa; min-height:80px;">
+    <div class="lane-label" style="background:#4a5568;">Tools &amp;<br>Information<br>Sources</div>
+    <div class="lane-content" style="gap:10px; flex-wrap:wrap; align-items:flex-start; padding-top:14px;">
+      <div class="task tools-box">Job board kanban tracker</div>
+      <div class="task tools-box">Networking kanban tracker</div>
+      <div class="task tools-box">Email (communication log)</div>
+      <div class="task manual" style="max-width:130px; font-size:10px;">Paper notes (company research)</div>
+      <div class="task manual" style="max-width:130px; font-size:10px;">OneDrive (resume files)</div>
+      <div class="task manual" style="max-width:130px; font-size:10px;">Google Drive (coaching docs / stories)</div>
+    </div>
+  </div>
+</div>
+<div class="legend">
+  <strong>Legend:</strong>
+  <div class="legend-item"><div class="swatch blue"></div> Structured task</div>
+  <div class="legend-item"><div class="swatch yellow"></div> Manual / overhead task</div>
+  <div class="legend-item"><div class="swatch red"></div> Process gap / breakdown point</div>
+  <div class="legend-item"><div class="swatch green"></div> Existing tool support</div>
+  <div class="legend-item">◇ = Decision point &nbsp; S = Start event &nbsp; E = End event</div>
+</div>
+<div class="finding">
+  <strong>Key finding:</strong> The current process has tracking infrastructure but no methodology. Every tailoring and prep step is reconstructed from memory each time. Information is scattered across 5+ disconnected tools with no connective tissue between them. Networking and interview prep are triggered inconsistently or not at all. The problem is process, not software — and that is exactly what JSP App v2 is designed to fix.
+</div>
+</body>
+</html>

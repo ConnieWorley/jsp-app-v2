@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fa; padding: 20px; }
+  h2 { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .subtitle { font-size: 11px; color: #666; margin-bottom: 16px; }
+  .diagram { background: white; border: 1px solid #ccc; border-radius: 6px; overflow: hidden; }
+  .pool-label { background: #1a3a2e; color: white; font-size: 12px; font-weight: 700; padding: 10px 16px; letter-spacing: 0.5px; }
+  .lane { display: flex; border-bottom: 1px solid #ddd; min-height: 96px; }
+  .lane:last-child { border-bottom: none; }
+  .lane-label { width: 130px; min-width: 130px; background: #1e5c3a; color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; line-height: 1.5; border-right: 2px solid #1a3a2e; }
+  .lane-label.app { background: #2c4a7c; }
+  .lane-label.ai  { background: #6b2d8b; }
+  .lane-label.sys { background: #4a5568; }
+  .lane-content { flex: 1; padding: 12px 14px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .event-start { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: 3px solid #27ae60; background: #eafaf1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #27ae60; font-weight: 700; }
+  .event-end   { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: 5px solid #1a3a2e; background: #eafaf1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #1a3a2e; font-weight: 700; }
+  .task { background: #eaf0fb; border: 1.5px solid #5b7fce; border-radius: 6px; padding: 6px 9px; font-size: 10px; color: #1a1a2e; text-align: center; line-height: 1.3; min-width: 90px; max-width: 112px; }
+  .task.app  { background: #eaf0fb; border-color: #2c4a7c; }
+  .task.ai   { background: #f5eafb; border-color: #6b2d8b; color: #4a1a6b; }
+  .task.user { background: #eafaf1; border-color: #1e5c3a; }
+  .task.gate { background: #fff8e1; border: 2px solid #f39c12; color: #7d5a00; font-weight: 600; }
+  .gateway-wrap { width: 40px; height: 40px; min-width: 40px; display: flex; align-items: center; justify-content: center; }
+  .gateway { width: 34px; height: 34px; background: #fff8e1; border: 2px solid #f39c12; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; }
+  .gateway span { transform: rotate(-45deg); font-size: 11px; color: #d68910; font-weight: 900; }
+  .arrow { color: #888; font-size: 15px; min-width: 10px; text-align: center; }
+  .note { font-size: 9px; color: #555; font-style: italic; margin-top: 2px; max-width: 112px; text-align: center; line-height: 1.2; }
+  .note.purple { color: #6b2d8b; }
+  .note.blue   { color: #2c4a7c; }
+  .note.green  { color: #1e5c3a; }
+  .note.orange { color: #d68910; font-weight: 600; }
+  .note.rev { color: #c0392b; font-weight: 600; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 10px; color: #444; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .swatch { width: 18px; height: 13px; border-radius: 3px; }
+  .swatch.user { background: #eafaf1; border: 1.5px solid #1e5c3a; }
+  .swatch.app  { background: #eaf0fb; border: 1.5px solid #2c4a7c; }
+  .swatch.ai   { background: #f5eafb; border: 1.5px solid #6b2d8b; }
+  .swatch.gate { background: #fff8e1; border: 2px solid #f39c12; }
+  .finding { background: #eafaf1; border-left: 4px solid #27ae60; padding: 10px 14px; margin-top: 14px; font-size: 10px; color: #444; border-radius: 0 4px 4px 0; line-height: 1.6; }
+  .finding strong { color: #1e5c3a; }
+  .revision-note { background: #fff3cd; border-left: 4px solid #e74c3c; padding: 8px 12px; margin-top: 10px; font-size: 10px; color: #7d1a1a; border-radius: 0 4px 4px 0; }
+</style>
+</head>
+<body>
+<h2>JSP App v2 — Future State BPMN: Stage 2 — Application &amp; Tailoring</h2>
+<p class="subtitle">Redesigned process &nbsp;|&nbsp; Process Analyst view &nbsp;|&nbsp; Triggered automatically on JD save &nbsp;|&nbsp; ⚠ Pending revision: due date logic</p>
+<div class="diagram">
+  <div class="pool-label">FUTURE STATE — Stage 2: Application &amp; Tailoring (JSP App v2)</div>
+  <div class="lane">
+    <div class="lane-label">Job Seeker</div>
+    <div class="lane-content">
+      <div class="cell"><div class="event-start">S</div><div class="note">Start: JD saved; tailoring checklist auto-generated</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Work through tailoring checklist</div><div class="note green">Due dates auto-calculated from prior item completion; user can edit</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Use AI resume coach as needed</div><div class="note green">Optional; open-ended questions</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Mark checklist items complete</div><div class="note green">Triggers due date on next item</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Submit application externally</div><div class="note green">Company ATS — outside app scope</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Update job status to Applied</div><div class="note green">Triggers networking stage</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="event-end">E</div><div class="note green">End: Applied; networking checklist unlocked</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label app">JSP App v2</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task app">Auto-generate tailoring checklist on JD save</div><div class="note blue">Default items + skills gaps from Stage 1</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Apply follow-up schedule offsets from setup</div><div class="note blue">Due date = prior item completion + offset days</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Surface checklist in job detail + action list</div><div class="note blue">User can override any due date</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Allow custom checklist items</div><div class="note blue">Flexible; not locked to defaults</div></div>
+      <div class="arrow">→</div>
+      <div class="gateway-wrap"><div class="gateway"><span>◇</span></div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task gate">Status updated to Applied?</div><div class="note orange">Triggers networking checklist (Stage 3)</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Log status change with timestamp</div><div class="note blue">Archived; visible in job detail</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label ai">AI / Prompt<br>Engineer</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task ai">AI Resume Coach: context-aware tailoring guidance</div><div class="note purple">Knows JD + selected resume + gap analysis</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">Provides specific, actionable suggestions</div><div class="note purple">Does not rewrite resume; user owns edits</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">Scoped to current job only</div><div class="note purple">Stateless per session in v2</div></div>
+    </div>
+  </div>
+  <div class="lane" style="background:#fafafa;">
+    <div class="lane-label sys">Default Checklist<br>Items Generated</div>
+    <div class="lane-content" style="gap:10px; flex-wrap:wrap; align-items:flex-start; padding-top:14px;">
+      <div class="task app" style="max-width:130px;">Update job title</div>
+      <div class="task app" style="max-width:130px;">Reorder key skills</div>
+      <div class="task app" style="max-width:130px;">Review for keywords</div>
+      <div class="task app" style="max-width:130px;">Address soft gaps</div>
+      <div class="task app" style="max-width:130px;">Address hard gaps</div>
+      <div class="task app" style="max-width:130px;">Verify formatting</div>
+      <div class="task app" style="max-width:130px;">Tailor summary / pitch</div>
+      <div class="task ai" style="max-width:130px;">+ Skills gaps from Stage 1 (auto-added)</div>
+    </div>
+  </div>
+</div>
+<div class="legend">
+  <strong>Legend:</strong>
+  <div class="legend-item"><div class="swatch user"></div> Job Seeker action</div>
+  <div class="legend-item"><div class="swatch app"></div> App action / data</div>
+  <div class="legend-item"><div class="swatch ai"></div> AI assist</div>
+  <div class="legend-item"><div class="swatch gate"></div> Decision / gate</div>
+  <div class="legend-item">◇ = Decision point &nbsp; S = Start &nbsp; E = End</div>
+</div>
+<div class="finding">
+  <strong>What changed:</strong> The tailoring process is no longer reconstructed from memory. A structured checklist is generated automatically on JD save — default items plus the specific skills gaps surfaced in Stage 1. Due dates are auto-calculated from prior item completion using offsets configured in Setup; the user can edit any date. The AI Resume Coach provides targeted guidance in context; the job seeker makes the edits. Status update to Applied triggers Stage 3.
+</div>
+</body>
+</html>

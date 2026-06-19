@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f9fa; padding: 20px; }
+  h2 { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .subtitle { font-size: 11px; color: #666; margin-bottom: 16px; }
+  .diagram { background: white; border: 1px solid #ccc; border-radius: 6px; overflow: hidden; }
+  .pool-label { background: #1a3a2e; color: white; font-size: 12px; font-weight: 700; padding: 10px 16px; letter-spacing: 0.5px; }
+  .lane { display: flex; border-bottom: 1px solid #ddd; min-height: 96px; }
+  .lane:last-child { border-bottom: none; }
+  .lane-label { width: 130px; min-width: 130px; background: #1e5c3a; color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; line-height: 1.5; border-right: 2px solid #1a3a2e; }
+  .lane-label.app { background: #2c4a7c; }
+  .lane-label.ai  { background: #6b2d8b; }
+  .lane-label.sys { background: #4a5568; }
+  .lane-content { flex: 1; padding: 12px 14px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .event-start { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: 3px solid #27ae60; background: #eafaf1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #27ae60; font-weight: 700; }
+  .event-end   { width: 34px; height: 34px; min-width: 34px; border-radius: 50%; border: 5px solid #1a3a2e; background: #eafaf1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #1a3a2e; font-weight: 700; }
+  .task { background: #eaf0fb; border: 1.5px solid #5b7fce; border-radius: 6px; padding: 6px 9px; font-size: 10px; color: #1a1a2e; text-align: center; line-height: 1.3; min-width: 90px; max-width: 112px; }
+  .task.app  { background: #eaf0fb; border-color: #2c4a7c; }
+  .task.ai   { background: #f5eafb; border-color: #6b2d8b; color: #4a1a6b; }
+  .task.good { background: #eafaf1; border-color: #27ae60; }
+  .task.gate { background: #fff8e1; border: 2px solid #f39c12; color: #7d5a00; font-weight: 600; }
+  .task.user { background: #eafaf1; border-color: #1e5c3a; }
+  .gateway-wrap { width: 40px; height: 40px; min-width: 40px; display: flex; align-items: center; justify-content: center; }
+  .gateway { width: 34px; height: 34px; background: #fff8e1; border: 2px solid #f39c12; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; }
+  .gateway span { transform: rotate(-45deg); font-size: 11px; color: #d68910; font-weight: 900; }
+  .arrow { color: #888; font-size: 15px; min-width: 10px; text-align: center; }
+  .note { font-size: 9px; color: #555; font-style: italic; margin-top: 2px; max-width: 112px; text-align: center; line-height: 1.2; }
+  .note.purple { color: #6b2d8b; }
+  .note.blue   { color: #2c4a7c; }
+  .note.green  { color: #1e5c3a; }
+  .note.orange { color: #d68910; font-weight: 600; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 10px; color: #444; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .swatch { width: 18px; height: 13px; border-radius: 3px; }
+  .swatch.user { background: #eafaf1; border: 1.5px solid #1e5c3a; }
+  .swatch.app  { background: #eaf0fb; border: 1.5px solid #2c4a7c; }
+  .swatch.ai   { background: #f5eafb; border: 1.5px solid #6b2d8b; }
+  .swatch.gate { background: #fff8e1; border: 2px solid #f39c12; }
+  .finding { background: #eafaf1; border-left: 4px solid #27ae60; padding: 10px 14px; margin-top: 14px; font-size: 10px; color: #444; border-radius: 0 4px 4px 0; line-height: 1.6; }
+  .finding strong { color: #1e5c3a; }
+</style>
+</head>
+<body>
+<h2>JSP App v2 — Future State BPMN: Stage 1 — JD Intake &amp; Scoring</h2>
+<p class="subtitle">Redesigned process &nbsp;|&nbsp; Process Analyst view &nbsp;|&nbsp; Triggered each time a new job is added</p>
+<div class="diagram">
+  <div class="pool-label">FUTURE STATE — Stage 1: JD Intake &amp; Scoring (JSP App v2)</div>
+  <div class="lane">
+    <div class="lane-label">Job Seeker</div>
+    <div class="lane-content">
+      <div class="cell"><div class="event-start">S</div><div class="note">Start: Job posting identified</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Paste URL or raw JD text into app</div><div class="note green">URL scrape attempted; paste fallback</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Review parsed fields; correct if needed</div><div class="note green">Title, company, skills, responsibilities</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Select resume to score against</div><div class="note green">From resume library; defaults to best match</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Review scorecard + gap analysis</div><div class="note green">Decide: pursue or pass</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task user">Mark gaps "not applicable" if relevant</div><div class="note green">Strikes through; note optional</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="event-end">E</div><div class="note green">End: Job saved; tailoring stage ready</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label app">JSP App v2</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task app">Attempt URL scrape; fall back to paste if failed</div><div class="note blue">Reliability handled gracefully</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Display parsed fields for review</div><div class="note blue">Editable before saving</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Save JD; create new job entry</div><div class="note blue">Triggers scoring automatically</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Display unified scorecard</div><div class="note blue">3 scores + rationale; recalculates on profile update</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Display skills gap list</div><div class="note blue">Hard gaps + soft gaps; feeds tailoring checklist</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Display top 3 matched stories</div><div class="note blue">Full list accessible; stored with job entry</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task app">Display training recommendations for hard gaps</div><div class="note blue">Curated static list in v2</div></div>
+    </div>
+  </div>
+  <div class="lane">
+    <div class="lane-label ai">AI / Prompt<br>Engineer</div>
+    <div class="lane-content">
+      <div class="cell"><div class="task ai">Parse JD: extract title, company, location, salary, skills, responsibilities</div><div class="note purple">Prompt: JD parsing</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">Score: Resume Match vs selected resume</div><div class="note purple">Prompt: JD Fit Scoring (1 of 3)</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">Score: Ideal Company Fit vs company profile</div><div class="note purple">Prompt: JD Fit Scoring (2 of 3)</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">Score: Role Target Fit vs role target profile</div><div class="note purple">Prompt: JD Fit Scoring (3 of 3)</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">Skills Gap Analysis: hard gaps vs soft gaps</div><div class="note purple">Prompt: Skills Gap Analysis</div></div>
+      <div class="arrow">→</div>
+      <div class="cell"><div class="task ai">Story Match: rank storybank by JD relevance</div><div class="note purple">Prompt: Story Match</div></div>
+    </div>
+  </div>
+  <div class="lane" style="background:#fafafa;">
+    <div class="lane-label sys">Data Created<br>(Supabase)</div>
+    <div class="lane-content" style="gap:10px; flex-wrap:wrap; align-items:flex-start; padding-top:14px;">
+      <div class="task app" style="max-width:130px;">Job entry (JD + metadata)</div>
+      <div class="task app" style="max-width:130px;">Unified scorecard (3 scores + rationale)</div>
+      <div class="task app" style="max-width:130px;">Skills gap list (hard + soft)</div>
+      <div class="task app" style="max-width:130px;">Ranked story matches (top 3 + full list)</div>
+      <div class="task app" style="max-width:130px;">Training recommendations</div>
+      <div class="task app" style="max-width:130px;">Job status: Saved</div>
+    </div>
+  </div>
+</div>
+<div class="legend">
+  <strong>Legend:</strong>
+  <div class="legend-item"><div class="swatch user"></div> Job Seeker action</div>
+  <div class="legend-item"><div class="swatch app"></div> App action / data</div>
+  <div class="legend-item"><div class="swatch ai"></div> AI action (named prompt)</div>
+  <div class="legend-item"><div class="swatch gate"></div> Decision / gate</div>
+  <div class="legend-item">S = Start &nbsp; E = End</div>
+</div>
+<div class="finding">
+  <strong>What changed:</strong> The gut-check fit review is replaced by a structured three-lens scorecard generated automatically on save. Skills gaps are surfaced immediately rather than discovered during tailoring. Story matching happens at intake — not the night before an interview. The job seeker makes the pursue/pass decision with data, not instinct. All three AI calls run simultaneously; the job seeker reviews results, not raw JD text.
+</div>
+</body>
+</html>
