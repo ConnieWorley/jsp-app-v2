@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSP App v2 — Architecture Decision Record</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #f0ece4; color: #3a3a3a; padding: 40px 24px; }
+  .header { text-align: center; margin-bottom: 8px; }
+  .header-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #1d6b5e; margin-bottom: 8px; }
+  .header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.8rem; font-weight: 400; color: #1a1a1a; }
+  .header p { font-size: 0.78rem; color: #8a8a7a; margin-top: 6px; font-weight: 300; }
+  .divider { width: 48px; height: 2px; background: #1d6b5e; margin: 16px auto 32px; }
+  .meta { max-width: 900px; margin: 0 auto 32px; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; background: #d8d2c4; border: 1px solid #d8d2c4; }
+  .meta-item { background: #faf8f4; padding: 12px 16px; }
+  .meta-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #9a9a8a; margin-bottom: 4px; }
+  .meta-value { font-size: 0.8rem; color: #2a2a2a; font-weight: 500; }
+  .adr-block { max-width: 900px; margin: 0 auto 24px; background: #faf8f4; border: 1px solid #ddd8cc; }
+  .adr-block-header { padding: 14px 20px; border-bottom: 1px solid #e8e3d8; background: #f4f0e8; display: flex; align-items: baseline; gap: 12px; }
+  .adr-num { font-family: 'Playfair Display', Georgia, serif; font-size: 1.3rem; font-weight: 400; color: #1d6b5e; flex-shrink: 0; line-height: 1; }
+  .adr-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; font-weight: 600; color: #1a1a1a; }
+  .adr-status { margin-left: auto; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border: 1px solid; flex-shrink: 0; }
+  .status-accepted { background: #e8f2f0; color: #1d6b5e; border-color: #b8d8d2; }
+  .adr-body { padding: 20px; }
+  .adr-section { margin-bottom: 18px; }
+  .adr-section:last-child { margin-bottom: 0; }
+  .adr-section-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #1d6b5e; margin-bottom: 8px; }
+  .adr-section p { font-size: 0.8rem; color: #4a4a3a; line-height: 1.7; font-weight: 300; }
+  .adr-section ul { list-style: none; padding: 0; }
+  .adr-section ul li { font-size: 0.8rem; color: #4a4a3a; line-height: 1.6; font-weight: 300; padding: 4px 0 4px 14px; position: relative; border-bottom: 1px solid #f0ece4; }
+  .adr-section ul li:last-child { border-bottom: none; }
+  .adr-section ul li::before { content: '◆'; position: absolute; left: 0; font-size: 0.45rem; color: #1d6b5e; top: 7px; }
+  .considered-item { background: #f4f0e8; border: 1px solid #e8e3d8; padding: 12px 14px; margin-bottom: 8px; }
+  .considered-item:last-child { margin-bottom: 0; }
+  .considered-option { font-size: 0.78rem; font-weight: 600; color: #2a2a2a; margin-bottom: 4px; }
+  .considered-reason { font-size: 0.75rem; color: #6a6a5a; font-weight: 300; line-height: 1.5; }
+  .considered-outcome { display: inline-block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 6px; border: 1px solid; margin-top: 6px; }
+  .outcome-rejected { background: #f2eae8; color: #7a3a2a; border-color: #d8bab4; }
+  .outcome-accepted { background: #e8f2f0; color: #1d6b5e; border-color: #b8d8d2; }
+  .consequence-item { display: flex; gap: 10px; font-size: 0.78rem; color: #4a4a3a; padding: 5px 0; border-bottom: 1px solid #f0ece4; font-weight: 300; line-height: 1.5; }
+  .consequence-item:last-child { border-bottom: none; }
+  .con-icon { flex-shrink: 0; font-size: 0.65rem; margin-top: 3px; }
+  .con-pos { color: #1d6b5e; }
+  .con-neg { color: #7a3a2a; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-eyebrow">JSP App v2</div>
+  <h1>Architecture Decision Record</h1>
+  <p>Phase 2 — Architecture &nbsp;·&nbsp; Decisions made and rationale captured</p>
+</div>
+<div class="divider"></div>
+<div class="meta">
+  <div class="meta-item"><div class="meta-label">Project</div><div class="meta-value">JSP App v2</div></div>
+  <div class="meta-item"><div class="meta-label">Phase</div><div class="meta-value">2 — Architecture & Stack Decision</div></div>
+  <div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">June 20, 2026</div></div>
+  <div class="meta-item"><div class="meta-label">Author</div><div class="meta-value">Connie Worley</div></div>
+  <div class="meta-item"><div class="meta-label">Collaborator</div><div class="meta-value">Claude (Anthropic) — AI planning partner</div></div>
+  <div class="meta-item"><div class="meta-label">Status</div><div class="meta-value">All decisions accepted</div></div>
+</div>
+
+<div class="adr-block">
+  <div class="adr-block-header"><div class="adr-num">001</div><div class="adr-title">Tech Stack: React + Vite, Supabase, Anthropic Claude API</div><div class="adr-status status-accepted">Accepted</div></div>
+  <div class="adr-body">
+    <div class="adr-section"><div class="adr-section-label">Context</div><p>JSP App v2 requires a modern frontend framework, a managed backend with auth and file storage, and integration with a large language model for AI-assisted features. The app is a solo build targeting personal use in v2, with a path toward multi-user SaaS in v3.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Decision</div><p>React + Vite for the frontend, Supabase for database, auth, and file storage, and the Anthropic Claude API for all AI features. Claude Code is used as the implementation tool for the Developer role.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Options Considered</div>
+      <div class="considered-item"><div class="considered-option">React + Vite / Supabase / Anthropic API</div><div class="considered-reason">Lightweight build tooling, industry-standard frontend framework, fully managed backend with built-in auth and storage, and direct access to Claude's capabilities. Strong documentation and community support. Scales to SaaS without re-platforming.</div><div><span class="considered-outcome outcome-accepted">Selected</span></div></div>
+      <div class="considered-item"><div class="considered-option">Next.js / Supabase / Anthropic API</div><div class="considered-reason">Next.js adds server-side rendering and API routes, which are useful for protecting API keys — but introduces complexity not needed for a single-user v2 app. The added learning curve was not justified by the v2 requirements.</div><div><span class="considered-outcome outcome-rejected">Not selected</span></div></div>
+      <div class="considered-item"><div class="considered-option">Vue or Svelte alternatives</div><div class="considered-reason">Both are viable but have smaller ecosystems for the specific combination of Supabase integration and Claude Code tooling. React was the stronger fit for the portfolio audience and the available AI development tooling.</div><div><span class="considered-outcome outcome-rejected">Not selected</span></div></div>
+    </div>
+    <div class="adr-section"><div class="adr-section-label">Consequences</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Vite provides fast local development with hot module replacement — important for a solo builder moving quickly.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Supabase handles auth, database, and file storage in one platform — eliminates the need to manage multiple backend services.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Stack is well-supported by Claude Code, enabling AI-assisted implementation.</div>
+      <div class="consequence-item"><span class="con-icon con-neg">▼</span>Auth hardening and multi-user row-level security are deferred to v3 — acceptable given the single-user v2 scope.</div>
+    </div>
+  </div>
+</div>
+
+<div class="adr-block">
+  <div class="adr-block-header"><div class="adr-num">002</div><div class="adr-title">API Call Architecture: Client-Side Only, No Server Middleware</div><div class="adr-status status-accepted">Accepted</div></div>
+  <div class="adr-body">
+    <div class="adr-section"><div class="adr-section-label">Context</div><p>The app calls both Supabase and the Anthropic Claude API. A decision was required on where those calls originate — from the React client directly, or via a server-side layer such as Supabase Edge Functions.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Decision</div><p>All API calls originate client-side from React. No Edge Functions or server middleware are used in v2.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Options Considered</div>
+      <div class="considered-item"><div class="considered-option">Client-side calls (React → Supabase + Claude API directly)</div><div class="considered-reason">Simpler architecture, faster to build, no additional infrastructure to manage. Appropriate for a single-user app with no public exposure of the API key in a shared environment.</div><div><span class="considered-outcome outcome-accepted">Selected</span></div></div>
+      <div class="considered-item"><div class="considered-option">Server-side via Supabase Edge Functions</div><div class="considered-reason">Keeps the Anthropic API key off the client — the stronger security posture for a public multi-user app. However, adds architectural complexity not justified for a single-user v2 build. Deferred to v3 when multi-user support and auth hardening are introduced.</div><div><span class="considered-outcome outcome-rejected">Deferred to v3</span></div></div>
+    </div>
+    <div class="adr-section"><div class="adr-section-label">Consequences</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Significantly simpler implementation — no Edge Function deployment, no middleware layer to debug.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Faster path to a working app, which is the primary v2 goal.</div>
+      <div class="consequence-item"><span class="con-icon con-neg">▼</span>Anthropic API key is stored client-side (environment variable). Acceptable for single-user personal use; must be addressed before v3 multi-user launch.</div>
+      <div class="consequence-item"><span class="con-icon con-neg">▼</span>v3 will require refactoring API calls to move through a server layer — a known and planned cost.</div>
+    </div>
+  </div>
+</div>
+
+<div class="adr-block">
+  <div class="adr-block-header"><div class="adr-num">003</div><div class="adr-title">JD Import: Paste-Only, No URL Fetch or Scrape</div><div class="adr-status status-accepted">Accepted</div></div>
+  <div class="adr-body">
+    <div class="adr-section"><div class="adr-section-label">Context</div><p>Job descriptions need to enter the app as text for scoring and analysis. The question was whether to attempt fetching JD content from a pasted URL, or to rely on user paste.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Decision</div><p>JD import is paste-only. Users may optionally paste the source URL, which is stored for reference only. No fetch or scrape is attempted.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Options Considered</div>
+      <div class="considered-item"><div class="considered-option">URL paste + JD text paste (no fetch)</div><div class="considered-reason">Clean, reliable UX. The URL is captured for reference and traceability without attempting a fetch that would frequently fail due to CORS restrictions on job board sites. A failing fetch signals a broken app to the user even when the failure is caused by external restrictions outside the app's control — a poor user experience that misrepresents the quality of the build.</div><div><span class="considered-outcome outcome-accepted">Selected</span></div></div>
+      <div class="considered-item"><div class="considered-option">Attempt URL fetch, fall back to paste on failure</div><div class="considered-reason">Superficially more convenient, but most job board URLs (LinkedIn, Indeed, Workday, Greenhouse) block client-side fetches via CORS headers. Frequent failures create a negative first impression. Without a server-side proxy, reliable scraping is not achievable in a client-only architecture.</div><div><span class="considered-outcome outcome-rejected">Not selected</span></div></div>
+    </div>
+    <div class="adr-section"><div class="adr-section-label">Consequences</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Reliable, consistent UX — no spinners, no silent failures, no user confusion.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>URL is preserved for reference, traceability, and potential v3 server-side scraping.</div>
+      <div class="consequence-item"><span class="con-icon con-neg">▼</span>Requires one extra user step (copy-paste JD text). Acceptable given the reliability tradeoff.</div>
+    </div>
+  </div>
+</div>
+
+<div class="adr-block">
+  <div class="adr-block-header"><div class="adr-num">004</div><div class="adr-title">Checklist Model: Master Template + Per-Job Instance</div><div class="adr-status status-accepted">Accepted</div></div>
+  <div class="adr-body">
+    <div class="adr-section"><div class="adr-section-label">Context</div><p>Each job moves through three stages (application, networking, interview), each with its own checklist. A decision was required on whether checklists are configured per-job manually or instantiated from a master template.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Decision</div><p>One master checklist template per stage, configured once in Setup. When a job transitions to a new stage, the template is instantiated as a per-job copy. Users may edit individual instances without affecting the master template.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Options Considered</div>
+      <div class="considered-item"><div class="considered-option">Master template + per-job instance</div><div class="considered-reason">Configure once, reuse across every job. Per-job instances are editable without touching the template. Due dates are auto-calculated at instantiation from offsets set in Setup, with user override available. Scales cleanly as more jobs are added.</div><div><span class="considered-outcome outcome-accepted">Selected</span></div></div>
+      <div class="considered-item"><div class="considered-option">Manually assign checklist items per job</div><div class="considered-reason">Maximum flexibility per job but creates significant repetitive data entry — the exact problem this app is designed to eliminate. Rejected as inconsistent with the app's core value proposition.</div><div><span class="considered-outcome outcome-rejected">Not selected</span></div></div>
+    </div>
+    <div class="adr-section"><div class="adr-section-label">Consequences</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Minimal data entry per job — the template does the work once.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Auto-calculated due dates from Setup offsets reduce manual scheduling entirely.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Per-job editability preserves flexibility for exceptions without corrupting the template.</div>
+      <div class="consequence-item"><span class="con-icon con-neg">▼</span>Requires two tables (checklist_templates + checklist_instances) — slightly more complex data model, but a clean and well-understood pattern.</div>
+    </div>
+  </div>
+</div>
+
+<div class="adr-block">
+  <div class="adr-block-header"><div class="adr-num">005</div><div class="adr-title">Data Model: PostgreSQL Enums for Single-Option Fields, text[] for Multi-Select</div><div class="adr-status status-accepted">Accepted</div></div>
+  <div class="adr-body">
+    <div class="adr-section"><div class="adr-section-label">Context</div><p>Several fields in the data model have a defined, bounded set of valid values (e.g., job status, gap type, outreach type). A decision was required on how to enforce those constraints at the database level and how to present them in the UI.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Decision</div><p>Single-option fields with defined values are implemented as PostgreSQL enums, rendered as dropdowns or radio buttons in the UI. Multi-select fields are implemented as text[] (PostgreSQL arrays), rendered as checkbox groups. Free text entry is minimized throughout.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Rationale</div><p>Enums enforce data integrity at the database level, prevent invalid entries, and make the UI predictable. Minimizing free text entry reduces cognitive load, speeds up data entry, and produces cleaner, more queryable data — all consistent with the app's goal of reducing friction in the job search process. The one explicit multi-select field is networking.outreach_type, where a contact may have been reached via multiple channels simultaneously.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Consequences</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Data integrity enforced at the database level — no invalid status values possible.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>UI is faster and more consistent — users select rather than type.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Cleaner data supports reliable filtering, sorting, and dashboard aggregation.</div>
+      <div class="consequence-item"><span class="con-icon con-neg">▼</span>Adding new enum values requires a database migration — a minor operational cost if the value set needs to expand.</div>
+    </div>
+  </div>
+</div>
+
+<div class="adr-block">
+  <div class="adr-block-header"><div class="adr-num">006</div><div class="adr-title">Target Companies: Independent Entity, Not Attached to Jobs</div><div class="adr-status status-accepted">Accepted</div></div>
+  <div class="adr-body">
+    <div class="adr-section"><div class="adr-section-label">Context</div><p>The Ideal Company Quiz produces a profile of companies the user wants to work for. A decision was required on whether that company data lives inside the job record or as a standalone entity.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Decision</div><p>target_companies is a standalone table, independent of any specific job. Jobs may optionally link to a target company via a nullable foreign key, but a company record can exist without any associated job.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Rationale</div><p>A target company is a strategic career preference, not a job application artifact. The user may be tracking a company they want to work for before any specific role opens up. Treating it as independent preserves that intent and allows the ideal company fit score to be calculated at the company level and referenced across multiple job applications at the same company.</p></div>
+    <div class="adr-section"><div class="adr-section-label">Consequences</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Company preferences survive independently of individual job applications.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Multiple jobs at the same company can reference the same company record and ideal fit score.</div>
+      <div class="consequence-item"><span class="con-icon con-pos">▲</span>Supports proactive company tracking before a specific role is identified.</div>
+      <div class="consequence-item"><span class="con-icon con-neg">▼</span>Requires the user to link a job to a target company manually if desired — a minor UX step, not a workflow burden.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

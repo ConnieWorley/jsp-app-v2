@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSP App v2 — API Structure</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #f0ece4; color: #3a3a3a; padding: 40px 24px; }
+  .header { text-align: center; margin-bottom: 8px; }
+  .header-eyebrow { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #1d6b5e; margin-bottom: 8px; }
+  .header h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.8rem; font-weight: 400; color: #1a1a1a; }
+  .header p { font-size: 0.78rem; color: #8a8a7a; margin-top: 6px; font-weight: 300; }
+  .divider { width: 48px; height: 2px; background: #1d6b5e; margin: 16px auto 32px; }
+  .decisions { max-width: 900px; margin: 0 auto 32px; background: #faf8f4; border: 1px solid #ddd8cc; border-top: 3px solid #1d6b5e; padding: 20px 24px; }
+  .decisions-title { font-family: 'Playfair Display', Georgia, serif; font-size: 0.95rem; color: #1d6b5e; font-weight: 600; margin-bottom: 12px; }
+  .decision-item { font-size: 0.78rem; color: #5a5a4a; padding: 5px 0; border-bottom: 1px solid #e8e3d8; display: flex; gap: 10px; }
+  .decision-item:last-child { border-bottom: none; }
+  .decision-bullet { color: #1d6b5e; font-weight: 700; flex-shrink: 0; }
+  .section { max-width: 900px; margin: 0 auto 28px; }
+  .section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #d8d2c4; }
+  .op-table { width: 100%; border-collapse: collapse; }
+  .op-table th { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8a7a; padding: 6px 12px; text-align: left; background: #e8e3d8; border-bottom: 1px solid #d8d2c4; }
+  .op-table td { font-size: 0.75rem; padding: 8px 12px; border-bottom: 1px solid #e8e3d8; vertical-align: top; background: #faf8f4; line-height: 1.5; }
+  .op-table tr:hover td { background: #f0ece4; }
+  .op-name { font-weight: 600; color: #2a2a2a; }
+  .op-note { font-size: 0.68rem; color: #8a8a7a; font-style: italic; margin-top: 2px; }
+  .badge { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border: 1px solid; white-space: nowrap; }
+  .badge-supabase { background: #e8f2f0; color: #1d6b5e; border-color: #b8d8d2; }
+  .badge-claude { background: #f0eaf2; color: #6a2a7a; border-color: #d0b4d8; }
+  .badge-both { background: #f2f0e4; color: #6a5e1a; border-color: #d8d0a0; }
+  .us-ref { font-size: 0.65rem; color: #9a9a8a; font-weight: 500; }
+  .flow-box { max-width: 900px; margin: 0 auto 28px; background: #faf8f4; border: 1px solid #ddd8cc; padding: 20px 24px; }
+  .flow-title { font-family: 'Playfair Display', Georgia, serif; font-size: 0.95rem; color: #1d6b5e; font-weight: 600; margin-bottom: 14px; }
+  .flow-step { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #e8e3d8; }
+  .flow-step:last-child { border-bottom: none; }
+  .flow-num { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; color: #1d6b5e; font-weight: 600; flex-shrink: 0; width: 20px; }
+  .flow-text { font-size: 0.78rem; color: #5a5a4a; line-height: 1.5; }
+  .flow-sub { font-size: 0.68rem; color: #8a8a7a; font-style: italic; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-eyebrow">JSP App v2</div>
+  <h1>API Structure</h1>
+  <p>Phase 2 — Architecture &nbsp;·&nbsp; Client-side · React → Supabase + Claude API</p>
+</div>
+<div class="divider"></div>
+<div class="decisions">
+  <div class="decisions-title">Architecture Decisions Locked</div>
+  <div class="decision-item"><span class="decision-bullet">◆</span>All API calls are client-side (React). No server middleware or Edge Functions in v2.</div>
+  <div class="decision-item"><span class="decision-bullet">◆</span>JD import = URL field (stored for reference only) + JD paste. No fetch or scrape attempt.</div>
+  <div class="decision-item"><span class="decision-bullet">◆</span>Claude API generates output; Supabase stores the result. Both called in sequence where needed.</div>
+  <div class="decision-item"><span class="decision-bullet">◆</span>Single-option fields are PostgreSQL enums. Multi-select fields are text[] arrays.</div>
+</div>
+<div class="section">
+  <div class="section-title">Auth &amp; Setup</div>
+  <table class="op-table">
+    <thead><tr><th>Operation</th><th>Caller</th><th>Notes</th><th>US Ref</th></tr></thead>
+    <tbody>
+      <tr><td><div class="op-name">Sign up / log in / log out</div></td><td><span class="badge badge-supabase">Supabase Auth</span></td><td>supabase.auth.signUp / signInWithPassword / signOut</td><td class="us-ref">US-CC01</td></tr>
+      <tr><td><div class="op-name">Session persistence</div></td><td><span class="badge badge-supabase">Supabase Auth</span></td><td>onAuthStateChange listener on app load</td><td class="us-ref">US-CC01</td></tr>
+      <tr><td><div class="op-name">Save Ideal Company Quiz</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Insert/upsert to target_companies</td><td class="us-ref">US-S001</td></tr>
+      <tr><td><div class="op-name">Save Role Target Profile</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Insert/upsert to users profile fields</td><td class="us-ref">US-S002</td></tr>
+      <tr><td><div class="op-name">Upload resume file</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>supabase.storage.upload → save file_path to resumes table</td><td class="us-ref">US-S003</td></tr>
+      <tr><td><div class="op-name">Save pitch library entry</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Insert to pitches table</td><td class="us-ref">US-S004</td></tr>
+      <tr><td><div class="op-name">Save storybank entry (manual)</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Insert to stories table</td><td class="us-ref">US-S005</td></tr>
+      <tr><td><div class="op-name">AI-assist storybank entry</div><div class="op-note">Claude refines STAR draft → user reviews → saves</div></td><td><span class="badge badge-both">Both</span></td><td>Claude API → polish/structure STAR text → user approves → Supabase insert</td><td class="us-ref">US-S005</td></tr>
+      <tr><td><div class="op-name">Save job board preferences</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Insert/upsert to user preferences</td><td class="us-ref">US-S006</td></tr>
+      <tr><td><div class="op-name">Generate elevator pitch variants</div><div class="op-note">Role-tailored variants from pitch library</div></td><td><span class="badge badge-both">Both</span></td><td>Claude API → generate variants → user selects/edits → Supabase insert</td><td class="us-ref">US-S007</td></tr>
+      <tr><td><div class="op-name">Mark setup complete</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Update users.setup_complete = true</td><td class="us-ref">US-S008</td></tr>
+      <tr><td><div class="op-name">Save follow-up schedule offsets</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Insert/upsert to follow_up_schedule</td><td class="us-ref">US-S009</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="section">
+  <div class="section-title">JD Intake &amp; Scoring</div>
+  <table class="op-table">
+    <thead><tr><th>Operation</th><th>Caller</th><th>Notes</th><th>US Ref</th></tr></thead>
+    <tbody>
+      <tr><td><div class="op-name">Save JD (URL + paste)</div><div class="op-note">No fetch attempt. URL stored for reference only.</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Insert to jobs table with jd_text and optional jd_url</td><td class="us-ref">US-J01</td></tr>
+      <tr><td><div class="op-name">Generate fit scorecard</div><div class="op-note">Resume match · ideal company fit · role fit → three scores</div></td><td><span class="badge badge-both">Both</span></td><td>Claude API → parse JD + user profile → return three numeric scores + rationale → Supabase update jobs</td><td class="us-ref">US-J02</td></tr>
+      <tr><td><div class="op-name">Generate skills gap analysis</div><div class="op-note">Hard and soft gaps identified from JD vs. profile</div></td><td><span class="badge badge-both">Both</span></td><td>Claude API → return gap list with type and severity → Supabase insert to skills_gaps</td><td class="us-ref">US-J03</td></tr>
+      <tr><td><div class="op-name">Surface training recommendations</div></td><td><span class="badge badge-claude">Claude API</span></td><td>Claude API → return curated training recs per gap → stored in skills_gaps.training_rec</td><td class="us-ref">US-J04</td></tr>
+      <tr><td><div class="op-name">Run story match engine</div><div class="op-note">Rank storybank entries against JD · surface top 4</div></td><td><span class="badge badge-both">Both</span></td><td>Claude API → score each story against JD → return ranked list → display only (no separate storage)</td><td class="us-ref">US-J05</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="section">
+  <div class="section-title">Tailoring &amp; Application Status</div>
+  <table class="op-table">
+    <thead><tr><th>Operation</th><th>Caller</th><th>Notes</th><th>US Ref</th></tr></thead>
+    <tbody>
+      <tr><td><div class="op-name">Instantiate application checklist</div><div class="op-note">Triggered when job status moves to "applied"</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Read checklist_templates (stage=application) → copy items to checklist_instances with auto-calculated due dates</td><td class="us-ref">US-A01</td></tr>
+      <tr><td><div class="op-name">Calculate checklist due dates</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Client reads follow_up_schedule offsets → calculates due_date per item at instantiation time</td><td class="us-ref">US-A01, US-S009</td></tr>
+      <tr><td><div class="op-name">Mark checklist item complete</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Update checklist_instances.is_complete + completed_at timestamp</td><td class="us-ref">US-A01</td></tr>
+      <tr><td><div class="op-name">AI resume coach</div><div class="op-note">Context-aware coaching scoped to this job</div></td><td><span class="badge badge-claude">Claude API</span></td><td>Claude API → job JD + user resume + gap analysis as context → return coaching advice → display only</td><td class="us-ref">US-A02</td></tr>
+      <tr><td><div class="op-name">Update application status</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Update jobs.status → triggers checklist instantiation for next stage</td><td class="us-ref">US-A03</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="section">
+  <div class="section-title">Networking</div>
+  <table class="op-table">
+    <thead><tr><th>Operation</th><th>Caller</th><th>Notes</th><th>US Ref</th></tr></thead>
+    <tbody>
+      <tr><td><div class="op-name">Instantiate networking checklist</div><div class="op-note">Triggered when job status moves to "networking"</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Read checklist_templates (stage=networking) → copy to checklist_instances with due dates</td><td class="us-ref">US-N01</td></tr>
+      <tr><td><div class="op-name">Log networking contact</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Insert to networking table · outreach_type as text[] (checkbox multi-select)</td><td class="us-ref">US-N01</td></tr>
+      <tr><td><div class="op-name">Calculate networking follow-up due date</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Client reads follow_up_schedule offset → sets networking.follow_up_due at contact creation</td><td class="us-ref">US-N01, US-S009</td></tr>
+      <tr><td><div class="op-name">AI networking coach</div><div class="op-note">Outreach message suggestions, follow-up timing</div></td><td><span class="badge badge-claude">Claude API</span></td><td>Claude API → job context + contact info → return outreach suggestions → display only</td><td class="us-ref">US-N02</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="section">
+  <div class="section-title">Interview Prep</div>
+  <table class="op-table">
+    <thead><tr><th>Operation</th><th>Caller</th><th>Notes</th><th>US Ref</th></tr></thead>
+    <tbody>
+      <tr><td><div class="op-name">Surface matched stories for interview</div></td><td><span class="badge badge-claude">Claude API</span></td><td>Claude API → re-rank storybank against JD for interview context → display only</td><td class="us-ref">US-I01</td></tr>
+      <tr><td><div class="op-name">Surface relevant elevator pitch</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Read pitches table → filter by role match → display</td><td class="us-ref">US-I02</td></tr>
+      <tr><td><div class="op-name">Instantiate interview checklist</div><div class="op-note">Triggered when job status moves to "interviewing"</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Read checklist_templates (stage=interview) → copy to checklist_instances with due dates</td><td class="us-ref">US-I03</td></tr>
+      <tr><td><div class="op-name">AI interviewer research prompt</div><div class="op-note">Structured prompt to research interviewer background</div></td><td><span class="badge badge-claude">Claude API</span></td><td>Claude API → return structured research prompt/guide for the specific interviewer context → display only</td><td class="us-ref">US-I03</td></tr>
+      <tr><td><div class="op-name">Surface practice tool recommendations</div></td><td><span class="badge badge-claude">Claude API</span></td><td>Claude API → return curated external tool recommendations based on role/gap context → display only</td><td class="us-ref">US-I04</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="section">
+  <div class="section-title">Dashboard &amp; Action List</div>
+  <table class="op-table">
+    <thead><tr><th>Operation</th><th>Caller</th><th>Notes</th><th>US Ref</th></tr></thead>
+    <tbody>
+      <tr><td><div class="op-name">Load dashboard data</div><div class="op-note">Active jobs, scores, current stage, next actions</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Read jobs + checklist_instances + networking → aggregate for display</td><td class="us-ref">US-AL01</td></tr>
+      <tr><td><div class="op-name">Load action list</div><div class="op-note">Upcoming due dates across all active jobs and stages</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Read checklist_instances where is_complete = false, ordered by due_date → display as action list</td><td class="us-ref">US-AL01</td></tr>
+      <tr><td><div class="op-name">In-app reminder display</div></td><td><span class="badge badge-supabase">Supabase</span></td><td>Client compares due_date to current date on load → surface overdue and due-today items prominently</td><td class="us-ref">US-AL01</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="flow-box">
+  <div class="flow-title">Core AI Sequence — JD Import to Scorecard</div>
+  <div class="flow-step"><div class="flow-num">1</div><div class="flow-text">User pastes JD text (and optionally the URL for reference)<div class="flow-sub">No fetch attempted. Clean paste UX.</div></div></div>
+  <div class="flow-step"><div class="flow-num">2</div><div class="flow-text">React saves job record to Supabase (jd_text, jd_url, status=draft)<div class="flow-sub">Supabase insert → jobs table</div></div></div>
+  <div class="flow-step"><div class="flow-num">3</div><div class="flow-text">React calls Claude API with JD + user profile (role target, resume label, ideal company criteria) as context<div class="flow-sub">Single prompt returns: three scores + rationale + skills gaps + gap severity + training recs</div></div></div>
+  <div class="flow-step"><div class="flow-num">4</div><div class="flow-text">React parses Claude response (structured JSON output)<div class="flow-sub">Scores → jobs table · gaps → skills_gaps table · training recs → skills_gaps.training_rec</div></div></div>
+  <div class="flow-step"><div class="flow-num">5</div><div class="flow-text">React calls Claude API again with JD + storybank to rank story matches<div class="flow-sub">Returns ranked list → display only, no separate storage needed</div></div></div>
+  <div class="flow-step"><div class="flow-num">6</div><div class="flow-text">Scorecard, gap analysis, and story matches render for user review<div class="flow-sub">User can override status, edit items, or proceed to application stage</div></div></div>
+</div>
+</body>
+</html>
