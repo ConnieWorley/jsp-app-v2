@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Check, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@/context/AuthContext"
 
 const steps = [
   {
@@ -71,16 +72,25 @@ const steps = [
 
 export function OnboardingWizard() {
   const [currentStep, setCurrentStep] = useState(0)
+  const [finishing, setFinishing] = useState(false)
   const navigate = useNavigate()
+  const { completeOnboarding } = useAuth()
 
   const step = steps[currentStep]
   const isFirst = currentStep === 0
   const isLast = currentStep === steps.length - 1
   const progressPct = ((currentStep + 1) / steps.length) * 100
 
-  function handleNext() {
+  async function handleNext() {
     if (isLast) {
-      navigate("/dashboard")
+      setFinishing(true)
+      const { error } = await completeOnboarding()
+      if (error) {
+        setFinishing(false)
+        alert(`Couldn't save your progress: ${error.message}`)
+        return
+      }
+      navigate("/dashboard", { replace: true })
     } else {
       setCurrentStep((s) => s + 1)
     }
@@ -129,14 +139,18 @@ export function OnboardingWizard() {
 
         {/* Footer nav */}
         <div className="flex items-center justify-between">
-          <Button variant="outline" onClick={handleBack} disabled={isFirst}>
+          <Button
+            variant="outline"
+            onClick={handleBack}
+            disabled={isFirst || finishing}
+          >
             <ChevronLeft />
             Back
           </Button>
-          <Button onClick={handleNext}>
+          <Button onClick={handleNext} disabled={finishing}>
             {isLast ? (
               <>
-                Finish
+                {finishing ? "Saving…" : "Finish"}
                 <Check />
               </>
             ) : (

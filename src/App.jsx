@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route, Navigate, useLocation } from "react-router-dom"
 import { AuthForm } from "@/components/auth/AuthForm"
 import { AppShell } from "@/components/layout/AppShell"
 import { DashboardPage } from "@/pages/DashboardPage"
@@ -14,7 +14,8 @@ import { OnboardingWizard } from "@/pages/OnboardingWizard"
 import { useAuth } from "@/context/AuthContext"
 
 function App() {
-  const { user, loading } = useAuth()
+  const { user, loading, onboardingComplete } = useAuth()
+  const location = useLocation()
 
   if (loading) {
     return (
@@ -30,6 +31,16 @@ function App() {
         <AuthForm />
       </main>
     )
+  }
+
+  // Signed in but onboarding not finished — pin them to the wizard.
+  if (!onboardingComplete && location.pathname !== "/onboarding") {
+    return <Navigate to="/onboarding" replace />
+  }
+
+  // Onboarding done — don't let them revisit the wizard.
+  if (onboardingComplete && location.pathname === "/onboarding") {
+    return <Navigate to="/dashboard" replace />
   }
 
   return (

@@ -25,10 +25,13 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
+  const user = session?.user ?? null
+
   const value = {
     session,
-    user: session?.user ?? null,
+    user,
     loading,
+    onboardingComplete: user?.user_metadata?.onboarding_complete === true,
     signUp: (email, password, firstName) =>
       supabase.auth.signUp({
         email,
@@ -38,6 +41,8 @@ export function AuthProvider({ children }) {
     signIn: (email, password) =>
       supabase.auth.signInWithPassword({ email, password }),
     signOut: () => supabase.auth.signOut(),
+    completeOnboarding: () =>
+      supabase.auth.updateUser({ data: { onboarding_complete: true } }),
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
