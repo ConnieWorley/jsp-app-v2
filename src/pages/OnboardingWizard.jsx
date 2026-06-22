@@ -6,67 +6,67 @@ import { useAuth } from "@/context/AuthContext"
 
 const steps = [
   {
-    id: "profile",
-    title: "Job Seeker Profile",
+    id: "ideal-company",
+    title: "Ideal Company Quiz",
     us: "US-S001",
     description:
-      "Tell us about you — first and last name, current role, years of experience, and target salary range.",
+      "What does your dream workplace look like? We'll walk you through a guided quiz — size, industry, culture, values, deal-breakers — so we can score future jobs against what actually matters to you. 🏢",
   },
   {
-    id: "roles",
-    title: "Target Roles",
+    id: "role-target",
+    title: "Role Target Profile",
     us: "US-S002",
     description:
-      "Which job titles are you aiming for? Add as many as you'd like — we'll use them to tailor your search.",
+      "Tell us the roles you're aiming for — job titles, salary range, and where you're open to working (remote / hybrid / onsite). At least one target unlocks job intake. 🎯",
   },
   {
-    id: "industries",
-    title: "Target Industries",
+    id: "resume-library",
+    title: "Resume Library",
     us: "US-S003",
     description:
-      "Pick the industries you want to focus on. Optional, but it helps narrow your target-company list.",
+      "Upload up to 3 master resumes (PDF or Word) and label each one — say, \"Operations\" or \"Project Management.\" We'll grab the right one when tailoring per job. 📄",
   },
   {
-    id: "locations",
-    title: "Target Locations",
+    id: "pitch-library",
+    title: "Pitch Library",
     us: "US-S004",
     description:
-      "Where are you open to working? Add cities, regions, or 'remote' — and we'll respect your preferences.",
+      "Stash 2–3 tailored professional summaries — one per role target. Optional AI assist if you want a draft. 💬",
   },
   {
-    id: "preferences",
-    title: "Work Preferences",
+    id: "storybank",
+    title: "Storybank",
     us: "US-S005",
     description:
-      "Remote vs. hybrid vs. onsite, company size, comp expectations, and anything else that's a must-have or deal-breaker.",
+      "Build 5–6 behavioral stories in STAR format. We'll match them to interview questions automatically. The AI nudges you if a section's looking thin. ✨",
   },
   {
-    id: "resume",
-    title: "Resume Upload",
+    id: "job-boards",
+    title: "Job Board Preferences",
     us: "US-S006",
     description:
-      "Upload your current resume so we have a base version to tailor per role. PDF or Word.",
+      "Pick 3–4 job boards to focus on. We'll give you setup tips for each — how to configure alerts that surface the right jobs. 🎣",
   },
   {
-    id: "skills",
-    title: "Skills Inventory",
+    id: "elevator-pitch",
+    title: "Elevator Pitch",
     us: "US-S007",
     description:
-      "List the skills you bring to the table. We'll cross-reference these with target roles to spot gaps.",
+      "Build your 12-second pitch (~30–40 words) with AI guidance. We'll surface it again at interview prep so you walk in ready. 🎤",
   },
   {
-    id: "checklists",
-    title: "Checklist Template",
+    id: "setup-review",
+    title: "Setup Review",
     us: "US-S008",
     description:
-      "Pick a default checklist template (or leave blank). You'll use it to track prep and follow-up per application.",
+      "A recap of what's done vs. still open. Required: Ideal Company Quiz, Role Target, ≥1 resume, ≥1 story, Follow-Up Schedule. Recommended: Pitch Library, Elevator Pitch. ✅",
   },
   {
-    id: "followup",
+    id: "follow-up",
     title: "Follow-Up Schedule",
     us: "US-S009",
     description:
-      "Set your default follow-up cadence (e.g. 3 days after applying, 1 week after an interview). You can override per job.",
+      "Set your default follow-up cadence — days to tailor a resume after saving a job, days to reach out after applying, days to follow up on outreach. You can override per job. ⏰",
   },
 ]
 
