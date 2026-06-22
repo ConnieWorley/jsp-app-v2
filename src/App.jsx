@@ -1,6 +1,25 @@
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
+import { supabase } from "@/lib/supabase"
 
 function App() {
+  const [supabaseStatus, setSupabaseStatus] = useState("checking…")
+
+  useEffect(() => {
+    supabase.auth
+      .getSession()
+      .then(({ data, error }) => {
+        if (error) {
+          setSupabaseStatus(`error: ${error.message}`)
+        } else {
+          setSupabaseStatus(
+            data.session ? "connected — session active" : "connected — no session"
+          )
+        }
+      })
+      .catch((err) => setSupabaseStatus(`error: ${err.message}`))
+  }, [])
+
   return (
     <main className="min-h-screen flex items-center justify-center p-8">
       <div className="max-w-2xl text-center space-y-6">
@@ -16,6 +35,9 @@ function App() {
           <Button>Primary</Button>
           <Button variant="destructive">Destructive</Button>
           <Button variant="outline">Outline</Button>
+        </div>
+        <div className="pt-6 text-sm text-muted-foreground border-t border-border mt-8">
+          <span className="font-medium">Supabase:</span> {supabaseStatus}
         </div>
       </div>
     </main>
