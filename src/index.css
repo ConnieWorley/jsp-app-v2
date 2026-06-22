@@ -9,6 +9,8 @@
 @import "@fontsource/playfair-display/600.css";
 @import "@fontsource/playfair-display/700.css";
 
+@custom-variant dark (&:is(.dark *));
+
 /*
   Design-system tokens live in this @theme block. Each `--color-*` and `--font-*`
   becomes a Tailwind utility automatically (e.g. `bg-background`, `text-primary`,
@@ -58,4 +60,31 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
+}
+
+/*
+  Sidebar tokens tuned to our design system. Slightly darker cream gives the
+  sidebar visual separation from the main content; active item uses the teal
+  primary so the current page is unmistakable.
+*/
+:root {
+  --sidebar: #F0EBE0;
+  --sidebar-foreground: #08060d;
+  --sidebar-primary: #1d6b5e;
+  --sidebar-primary-foreground: #FAF7F2;
+  --sidebar-accent: #1d6b5e;
+  --sidebar-accent-foreground: #FAF7F2;
+  --sidebar-border: #e5e0d6;
+  --sidebar-ring: #1d6b5e;
+}
+
+@theme inline {
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }

@@ -1,38 +1,19 @@
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { Routes, Route, Navigate } from "react-router-dom"
 import { AuthForm } from "@/components/auth/AuthForm"
+import { AppShell } from "@/components/layout/AppShell"
+import { DashboardPage } from "@/pages/DashboardPage"
+import { JobsPage } from "@/pages/JobsPage"
+import { ResumesPage } from "@/pages/ResumesPage"
+import { StoriesPage } from "@/pages/StoriesPage"
+import { ChecklistsPage } from "@/pages/ChecklistsPage"
+import { TargetCompaniesPage } from "@/pages/TargetCompaniesPage"
+import { NetworkingPage } from "@/pages/NetworkingPage"
+import { SkillsGapPage } from "@/pages/SkillsGapPage"
+import { SetupPage } from "@/pages/SetupPage"
 import { useAuth } from "@/context/AuthContext"
 
-const greetings = [
-  (name) => `You've got this, ${name}! ⭐`,
-  (name) => `Hey ${name} — ready to make some moves? 🚀`,
-  (name) => `Time to shine, ${name}! ✨`,
-  (name) => `${name}, let's land that next role 🎯`,
-  (name) => `Welcome back, ${name} — eyes on the prize 👀`,
-]
-
-function WelcomeScreen({ user, onSignOut }) {
-  const firstName =
-    user.user_metadata?.first_name || user.email.split("@")[0]
-  const [greetingIndex] = useState(() =>
-    Math.floor(Math.random() * greetings.length)
-  )
-  const greeting = greetings[greetingIndex](firstName)
-
-  return (
-    <main className="min-h-screen flex items-center justify-center p-8">
-      <div className="text-center space-y-4">
-        <h1 className="font-heading text-4xl text-primary">{greeting}</h1>
-        <Button variant="outline" onClick={onSignOut}>
-          Log out
-        </Button>
-      </div>
-    </main>
-  )
-}
-
 function App() {
-  const { user, loading, signOut } = useAuth()
+  const { user, loading } = useAuth()
 
   if (loading) {
     return (
@@ -50,7 +31,23 @@ function App() {
     )
   }
 
-  return <WelcomeScreen user={user} onSignOut={signOut} />
+  return (
+    <Routes>
+      <Route element={<AppShell />}>
+        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="jobs" element={<JobsPage />} />
+        <Route path="resumes" element={<ResumesPage />} />
+        <Route path="stories" element={<StoriesPage />} />
+        <Route path="checklists" element={<ChecklistsPage />} />
+        <Route path="target-companies" element={<TargetCompaniesPage />} />
+        <Route path="networking" element={<NetworkingPage />} />
+        <Route path="skills-gap" element={<SkillsGapPage />} />
+        <Route path="setup" element={<SetupPage />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Route>
+    </Routes>
+  )
 }
 
 export default App
