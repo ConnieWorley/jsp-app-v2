@@ -10,6 +10,7 @@ import { TargetCompaniesPage } from "@/pages/TargetCompaniesPage"
 import { NetworkingPage } from "@/pages/NetworkingPage"
 import { SkillsGapPage } from "@/pages/SkillsGapPage"
 import { SetupPage } from "@/pages/SetupPage"
+import { OnboardingWizard } from "@/pages/OnboardingWizard"
 import { useAuth } from "@/context/AuthContext"
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="onboarding" element={<OnboardingWizard />} />
       <Route element={<AppShell />}>
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
