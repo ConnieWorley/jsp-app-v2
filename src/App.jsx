@@ -1,47 +1,56 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { supabase } from "@/lib/supabase"
+import { AuthForm } from "@/components/auth/AuthForm"
+import { useAuth } from "@/context/AuthContext"
 
-function App() {
-  const [supabaseStatus, setSupabaseStatus] = useState("checking…")
+const greetings = [
+  (name) => `You've got this, ${name}! ⭐`,
+  (name) => `Hey ${name} — ready to make some moves? 🚀`,
+  (name) => `Time to shine, ${name}! ✨`,
+  (name) => `${name}, let's land that next role 🎯`,
+  (name) => `Welcome back, ${name} — eyes on the prize 👀`,
+]
 
-  useEffect(() => {
-    supabase.auth
-      .getSession()
-      .then(({ data, error }) => {
-        if (error) {
-          setSupabaseStatus(`error: ${error.message}`)
-        } else {
-          setSupabaseStatus(
-            data.session ? "connected — session active" : "connected — no session"
-          )
-        }
-      })
-      .catch((err) => setSupabaseStatus(`error: ${err.message}`))
-  }, [])
+function WelcomeScreen({ user, onSignOut }) {
+  const firstName =
+    user.user_metadata?.first_name || user.email.split("@")[0]
+  const [greetingIndex] = useState(() =>
+    Math.floor(Math.random() * greetings.length)
+  )
+  const greeting = greetings[greetingIndex](firstName)
 
   return (
     <main className="min-h-screen flex items-center justify-center p-8">
-      <div className="max-w-2xl text-center space-y-6">
-        <h1 className="font-heading text-5xl text-primary">
-          Job Search Playbook
-        </h1>
-        <p className="text-muted-foreground text-lg">
-          Design system smoke test. If this heading renders in Playfair Display
-          teal on a cream background, with Inter body text and three styled
-          buttons below, the Tailwind + shadcn/ui setup is working.
-        </p>
-        <div className="flex justify-center gap-3 pt-4">
-          <Button>Primary</Button>
-          <Button variant="destructive">Destructive</Button>
-          <Button variant="outline">Outline</Button>
-        </div>
-        <div className="pt-6 text-sm text-muted-foreground border-t border-border mt-8">
-          <span className="font-medium">Supabase:</span> {supabaseStatus}
-        </div>
+      <div className="text-center space-y-4">
+        <h1 className="font-heading text-4xl text-primary">{greeting}</h1>
+        <Button variant="outline" onClick={onSignOut}>
+          Log out
+        </Button>
       </div>
     </main>
   )
+}
+
+function App() {
+  const { user, loading, signOut } = useAuth()
+
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">Loading…</p>
+      </main>
+    )
+  }
+
+  if (!user) {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-8">
+        <AuthForm />
+      </main>
+    )
+  }
+
+  return <WelcomeScreen user={user} onSignOut={signOut} />
 }
 
 export default App
