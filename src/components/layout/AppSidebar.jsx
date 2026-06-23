@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
   LayoutDashboard,
   Briefcase,
@@ -10,6 +10,7 @@ import {
   Gauge,
   Settings,
   LogOut,
+  RotateCcw,
 } from "lucide-react"
 import {
   Sidebar,
@@ -39,12 +40,23 @@ const navItems = [
 
 export function AppSidebar() {
   const location = useLocation()
-  const { signOut } = useAuth()
+  const navigate = useNavigate()
+  const { signOut, resetOnboarding } = useAuth()
   const { setOpen, setOpenMobile, isMobile } = useSidebar()
 
   function collapseSidebar() {
     if (isMobile) setOpenMobile(false)
     else setOpen(false)
+  }
+
+  async function handleResetOnboarding() {
+    if (!confirm("Reset onboarding completion? You will be sent back to the wizard.")) return
+    const { error } = await resetOnboarding()
+    if (error) {
+      alert(`Could not reset onboarding: ${error.message}`)
+      return
+    }
+    navigate("/onboarding", { replace: true })
   }
 
   return (
@@ -95,6 +107,17 @@ export function AppSidebar() {
 
       <SidebarFooter>
         <SidebarMenu>
+          {import.meta.env.DEV && (
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={handleResetOnboarding}
+                tooltip="Reset onboarding (dev)"
+              >
+                <RotateCcw />
+                <span>Reset onboarding</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
           <SidebarMenuItem>
             <SidebarMenuButton onClick={signOut} tooltip="Log out">
               <LogOut />

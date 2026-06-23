@@ -2,10 +2,10 @@ import { useState } from "react"
 import { useAuth } from "@/context/AuthContext"
 
 const greetings = [
-  (name) => `You've got this, ${name}! ⭐`,
+  (name) => `You can do this, ${name}! ⭐`,
   (name) => `Hey ${name} — ready to make some moves? 🚀`,
   (name) => `Time to shine, ${name}! ✨`,
-  (name) => `${name}, let's land that next role 🎯`,
+  (name) => `${name}, time to land that next role 🎯`,
   (name) => `Welcome back, ${name} — eyes on the prize 👀`,
 ]
 

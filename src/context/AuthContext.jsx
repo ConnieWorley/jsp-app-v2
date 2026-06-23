@@ -43,6 +43,8 @@ export function AuthProvider({ children }) {
     signOut: () => supabase.auth.signOut(),
     completeOnboarding: () =>
       supabase.auth.updateUser({ data: { onboarding_complete: true } }),
+    resetOnboarding: () =>
+      supabase.auth.updateUser({ data: { onboarding_complete: false } }),
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

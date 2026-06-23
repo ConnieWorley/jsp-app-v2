@@ -82,7 +82,7 @@ export function AuthForm() {
       </Button>
 
       <p className="text-sm text-center text-muted-foreground">
-        {mode === "signup" ? "Already have an account?" : "Don't have an account?"}{" "}
+        {mode === "signup" ? "Already have an account?" : "No account yet?"}{" "}
         <button
           type="button"
           onClick={toggleMode}

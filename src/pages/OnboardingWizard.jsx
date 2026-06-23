@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Check, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/AuthContext"
+import { RoleTargetStep } from "@/components/onboarding/RoleTargetStep"
 
 const steps = [
   {
@@ -10,21 +11,21 @@ const steps = [
     title: "Ideal Company Quiz",
     us: "US-S001",
     description:
-      "What does your dream workplace look like? We'll walk you through a guided quiz — size, industry, culture, values, deal-breakers — so we can score future jobs against what actually matters to you. 🏢",
+      "What does your dream workplace look like? We will walk you through a guided quiz — size, industry, culture, values, deal-breakers — so we can score future jobs against what actually matters to you. 🏢",
   },
   {
     id: "role-target",
     title: "Role Target Profile",
     us: "US-S002",
     description:
-      "Tell us the roles you're aiming for — job titles, salary range, and where you're open to working (remote / hybrid / onsite). At least one target unlocks job intake. 🎯",
+      "Tell us the roles you are aiming for — job titles, salary range, and where you are open to working (remote / hybrid / onsite). At least one target unlocks job intake. 🎯",
   },
   {
     id: "resume-library",
     title: "Resume Library",
     us: "US-S003",
     description:
-      "Upload up to 3 master resumes (PDF or Word) and label each one — say, \"Operations\" or \"Project Management.\" We'll grab the right one when tailoring per job. 📄",
+      "Upload up to 3 master resumes (PDF or Word) and label each one — say, \"Operations\" or \"Project Management.\" We will grab the right one when tailoring per job. 📄",
   },
   {
     id: "pitch-library",
@@ -38,28 +39,28 @@ const steps = [
     title: "Storybank",
     us: "US-S005",
     description:
-      "Build 5–6 behavioral stories in STAR format. We'll match them to interview questions automatically. The AI nudges you if a section's looking thin. ✨",
+      "Build 5–6 behavioral stories in STAR format. We will match them to interview questions automatically. The AI nudges you if a section is looking thin. ✨",
   },
   {
     id: "job-boards",
     title: "Job Board Preferences",
     us: "US-S006",
     description:
-      "Pick 3–4 job boards to focus on. We'll give you setup tips for each — how to configure alerts that surface the right jobs. 🎣",
+      "Pick 3–4 job boards to focus on. We will give you setup tips for each — how to configure alerts that surface the right jobs. 🎣",
   },
   {
     id: "elevator-pitch",
     title: "Elevator Pitch",
     us: "US-S007",
     description:
-      "Build your 12-second pitch (~30–40 words) with AI guidance. We'll surface it again at interview prep so you walk in ready. 🎤",
+      "Build your 12-second pitch (~30–40 words) with AI guidance. We will surface it again at interview prep so you walk in ready. 🎤",
   },
   {
     id: "setup-review",
     title: "Setup Review",
     us: "US-S008",
     description:
-      "A recap of what's done vs. still open. Required: Ideal Company Quiz, Role Target, ≥1 resume, ≥1 story, Follow-Up Schedule. Recommended: Pitch Library, Elevator Pitch. ✅",
+      "A recap of what is done vs. still open. Required: Ideal Company Quiz, Role Target, ≥1 resume, ≥1 story, Follow-Up Schedule. Recommended: Pitch Library, Elevator Pitch. ✅",
   },
   {
     id: "follow-up",
@@ -73,6 +74,7 @@ const steps = [
 export function OnboardingWizard() {
   const [currentStep, setCurrentStep] = useState(0)
   const [finishing, setFinishing] = useState(false)
+  const [stepValid, setStepValid] = useState({})
   const navigate = useNavigate()
   const { completeOnboarding } = useAuth()
 
@@ -80,6 +82,16 @@ export function OnboardingWizard() {
   const isFirst = currentStep === 0
   const isLast = currentStep === steps.length - 1
   const progressPct = ((currentStep + 1) / steps.length) * 100
+  // Steps without a specialized component default to valid (true). Specialized
+  // components opt in to gating by reporting false via onValidityChange.
+  const currentValid = stepValid[step.id] !== false
+
+  const reportValidity = useCallback(
+    (valid) => {
+      setStepValid((prev) => ({ ...prev, [step.id]: valid }))
+    },
+    [step.id],
+  )
 
   async function handleNext() {
     if (isLast) {
@@ -87,7 +99,7 @@ export function OnboardingWizard() {
       const { error } = await completeOnboarding()
       if (error) {
         setFinishing(false)
-        alert(`Couldn't save your progress: ${error.message}`)
+        alert(`Could not save your progress: ${error.message}`)
         return
       }
       navigate("/dashboard", { replace: true })
@@ -98,6 +110,20 @@ export function OnboardingWizard() {
 
   function handleBack() {
     if (!isFirst) setCurrentStep((s) => s - 1)
+  }
+
+  function renderStepBody() {
+    switch (step.id) {
+      case "role-target":
+        return <RoleTargetStep onValidityChange={reportValidity} />
+      default:
+        return (
+          <p className="text-xs text-muted-foreground italic">
+            (Real form fields land in a future step. For now, click Next to
+            move on.)
+          </p>
+        )
+    }
   }
 
   return (
@@ -127,39 +153,48 @@ export function OnboardingWizard() {
           </div>
         </div>
 
-        {/* Step content */}
+        {/* Step intro */}
         <div className="rounded-lg border border-border bg-card p-8 space-y-3">
           <h2 className="font-heading text-3xl text-primary">{step.title}</h2>
           <p className="text-muted-foreground">{step.description}</p>
-          <p className="text-xs text-muted-foreground italic pt-4">
-            (Real form fields land in a future step. For now, click Next to
-            move on.)
-          </p>
         </div>
 
+        {/* Step body — specialized component or placeholder */}
+        {renderStepBody()}
+
         {/* Footer nav */}
-        <div className="flex items-center justify-between">
-          <Button
-            variant="outline"
-            onClick={handleBack}
-            disabled={isFirst || finishing}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <Button onClick={handleNext} disabled={finishing}>
-            {isLast ? (
-              <>
-                {finishing ? "Saving…" : "Finish"}
-                <Check />
-              </>
-            ) : (
-              <>
-                Next
-                <ChevronRight />
-              </>
-            )}
-          </Button>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="outline"
+              onClick={handleBack}
+              disabled={isFirst || finishing}
+            >
+              <ChevronLeft />
+              Back
+            </Button>
+            <Button
+              onClick={handleNext}
+              disabled={finishing || !currentValid}
+            >
+              {isLast ? (
+                <>
+                  {finishing ? "Saving…" : "Finish"}
+                  <Check />
+                </>
+              ) : (
+                <>
+                  Next
+                  <ChevronRight />
+                </>
+              )}
+            </Button>
+          </div>
+          {!currentValid && (
+            <p className="text-sm text-muted-foreground text-right">
+              Complete this step to continue.
+            </p>
+          )}
         </div>
       </div>
     </main>
