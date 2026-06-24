@@ -4,6 +4,7 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/AuthContext"
 import { RoleTargetStep } from "@/components/onboarding/RoleTargetStep"
+import { FollowUpScheduleStep } from "@/components/onboarding/FollowUpScheduleStep"
 
 const steps = [
   {
@@ -67,7 +68,7 @@ const steps = [
     title: "Follow-Up Schedule",
     us: "US-S009",
     description:
-      "Set your default follow-up cadence — days to tailor a resume after saving a job, days to reach out after applying, days to follow up on outreach. You can override per job. ⏰",
+      "Set your default cadence — when to tailor and apply, when to start outreach, and three escalating follow-ups after your initial contact. You can override the offsets on a per-job basis later. ⏰",
   },
 ]
 
@@ -116,6 +117,8 @@ export function OnboardingWizard() {
     switch (step.id) {
       case "role-target":
         return <RoleTargetStep onValidityChange={reportValidity} />
+      case "follow-up":
+        return <FollowUpScheduleStep onValidityChange={reportValidity} />
       default:
         return (
           <p className="text-xs text-muted-foreground italic">
