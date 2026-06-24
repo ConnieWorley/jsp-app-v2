@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext"
 import { RoleTargetStep } from "@/components/onboarding/RoleTargetStep"
 import { FollowUpScheduleStep } from "@/components/onboarding/FollowUpScheduleStep"
 import { StorybankStep } from "@/components/onboarding/StorybankStep"
+import { JobBoardsStep } from "@/components/onboarding/JobBoardsStep"
 
 const steps = [
   {
@@ -122,6 +123,8 @@ export function OnboardingWizard() {
         return <FollowUpScheduleStep onValidityChange={reportValidity} />
       case "storybank":
         return <StorybankStep onValidityChange={reportValidity} />
+      case "job-boards":
+        return <JobBoardsStep onValidityChange={reportValidity} />
       default:
         return (
           <p className="text-xs text-muted-foreground italic">
