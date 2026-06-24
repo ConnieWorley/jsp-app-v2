@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JSP App v2 — UI Wireframes</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.3.0/dist/tabler-icons.min.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F0EDE8;
+    color: #1a1a1a;
+    padding: 40px 32px;
+  }
+
+  /* Cover */
+  .cover {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #d4cfc8;
+  }
+  .cover-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-bottom: 12px;
+  }
+  .cover-title {
+    font-family: 'Georgia', serif;
+    font-size: 36px;
+    font-weight: normal;
+    color: #1d6b5e;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .cover-sub {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    max-width: 560px;
+    margin-bottom: 20px;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    color: #888;
+  }
+  .cover-meta span strong { color: #444; }
+
+  /* Screen index */
+  .screen-index {
+    max-width: 900px;
+    margin: 0 auto 60px;
+  }
+  .index-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 14px;
+  }
+  .index-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+  }
+  .index-item {
+    background: #fff;
+    border: 0.5px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .index-num {
+    font-size: 10px;
+    color: #1d6b5e;
+    background: #e8f2f0;
+    padding: 2px 7px;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+
+  /* Screen wrapper */
+  .screen-section {
+    max-width: 960px;
+    margin: 0 auto 72px;
+  }
+  .screen-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid #d4cfc8;
+  }
+  .screen-num {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1d6b5e;
+    margin-bottom: 2px;
+  }
+  .screen-title {
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    font-weight: normal;
+    color: #1a1a1a;
+  }
+  .screen-notes {
+    font-size: 12px;
+    color: #666;
+    max-width: 380px;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* App shell shared */
+  .app {
+    display: flex;
+    height: 680px;
+    border: 0.5px solid #ccc;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  }
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: #1d6b5e;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-logo {
+    padding: 20px 20px 16px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.12);
+  }
+  .logo-text { font-size: 15px; font-weight: 500; color: #fff; }
+  .logo-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+  .nav-section-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 12px 20px 4px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+  }
+  .nav-item i { font-size: 16px; }
+  .nav-item.active {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-left: 2px solid #a8d5cd;
+  }
+  .nav-item.locked { opacity: 0.4; }
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 0.5px solid rgba(255,255,255,0.12);
+  }
+  .user-row { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500; color: #fff;
+  }
+  .user-name { font-size: 13px; color: rgba(255,255,255,0.8); }
+
+  .main { flex: 1; display: flex; flex-direction: column; background: #FAF7F2; overflow: hidden; }
+  .topbar {
+    background: #fff;
+    border-bottom: 0.5px solid #e5e5e5;
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .topbar-title { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+  .topbar-left { display: flex; align-items: center; gap: 10px; }
+  .topbar-right { display: flex; align-items: center; gap: 8px; }
+  .topbar-back { font-size: 12px; color: #888; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+
+  .btn-sm {
+    padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 500;
+    cursor: pointer; border: 0.5px solid #1d6b5e; background: #1d6b5e; color: #fff;
+  }
+  .btn-primary {
+    padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: 0.5px solid #1d6b5e; background: #1d6b5e; color: #fff;
+  }
+  .btn-outline {
+    padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: 0.5px solid #ccc; background: #fff; color: #1a1a1a;
+  }
+  .btn-ghost { background: transparent; border: none; color: #888; font-size: 12px; cursor: pointer; }
+  .btn-xs {
+    padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;
+    border: 0.5px solid #ddd; background: #fff; color: #1a1a1a;
+  }
+  .btn-xs.teal { border-color: #1d6b5e; color: #1d6b5e; }
+  .btn-outline-sm {
+    width: 100%; padding: 8px; border-radius: 8px; font-size: 12px; cursor: pointer;
+    border: 0.5px solid #1d6b5e; background: transparent; color: #1d6b5e;
+    display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px;
+  }
+
+  .content { flex: 1; padding: 24px 28px; overflow-y: auto; }
+  .card {
+    background: #fff; border: 0.5px solid #e5e5e5; border-radius: 12px; padding: 16px 18px;
+  }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .card-title { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .card-action { font-size: 11px; color: #1d6b5e; cursor: pointer; }
+  .card-link { font-size: 11px; color: #1d6b5e; cursor: pointer; }
+
+  .ai-surface {
+    background: #e8f2f0; border: 0.5px solid #a8d5cd; border-radius: 8px;
+    padding: 11px 13px; font-size: 12px; color: #1d6b5e;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .ai-surface i { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .ai-result {
+    background: #e8f2f0; border: 0.5px solid #a8d5cd; border-radius: 8px;
+    padding: 13px; font-size: 12px; color: #085041; line-height: 1.6;
+  }
+  .ai-result-label {
+    font-size: 10px; font-weight: 500; color: #1d6b5e; text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+  }
+
+  .panel-label {
+    font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px;
+  }
+  .page-intro { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+
+  /* Badges */
+  .stage-badge { font-size: 11px; padding: 4px 10px; border-radius: 99px; background: #faeeda; color: #854F0B; }
+  .priority-badge { font-size: 11px; padding: 4px 10px; border-radius: 99px; background: #FCEBEB; color: #A32D2D; }
+  .primary-label { font-size: 10px; background: #e8f2f0; color: #1d6b5e; padding: 2px 8px; border-radius: 99px; display: inline-block; margin-bottom: 10px; }
+  .tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; background: #f2f2f0; color: #666; }
+  .tag.selected, .tag.primary-tag, .tag.theme { background: #e8f2f0; color: #1d6b5e; }
+  .filter-pill {
+    font-size: 11px; padding: 4px 10px; border-radius: 99px;
+    border: 0.5px solid #ddd; color: #666; cursor: pointer; background: #fff;
+  }
+  .filter-pill.active { background: #e8f2f0; border-color: #1d6b5e; color: #1d6b5e; }
+
+  /* Divider */
+  .screen-divider {
+    max-width: 960px; margin: 0 auto 72px;
+    border: none; border-top: 1px solid #d4cfc8;
+  }
+
+  /* ===================== SCREEN 1: SETUP WIZARD ===================== */
+  .progress-bar-wrap { background: #eee; border-radius: 99px; height: 6px; margin-bottom: 28px; }
+  .progress-bar-fill { background: #1d6b5e; height: 6px; border-radius: 99px; }
+  .steps-row { display: flex; gap: 0; margin-bottom: 32px; }
+  .step-pill { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; }
+  .step-pill:not(:last-child)::after {
+    content: ''; position: absolute; top: 13px; left: 60%; width: 80%; height: 1px; background: #ddd; z-index: 0;
+  }
+  .step-dot {
+    width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500; z-index: 1; border: 0.5px solid #ddd; background: #fff; color: #888;
+  }
+  .step-dot.done { background: #1d6b5e; color: #fff; border-color: #1d6b5e; }
+  .step-dot.active { background: #fff; border: 2px solid #1d6b5e; color: #1d6b5e; }
+  .step-label { font-size: 10px; color: #888; text-align: center; }
+  .step-label.active { color: #1d6b5e; font-weight: 500; }
+  .wizard-card {
+    background: #fff; border: 0.5px solid #e5e5e5; border-radius: 12px; padding: 28px; max-width: 620px;
+  }
+  .wizard-card h2 {
+    font-family: 'Georgia', serif; font-size: 18px; font-weight: normal; color: #1a1a1a;
+    margin-bottom: 6px;
+  }
+  .wizard-card .subtitle { font-size: 13px; color: #666; margin-bottom: 24px; line-height: 1.5; }
+  .field-group { margin-bottom: 20px; }
+  .field-label { font-size: 12px; color: #666; margin-bottom: 6px; display: block; }
+  .field-input {
+    width: 100%; padding: 9px 12px; border: 0.5px solid #ccc; border-radius: 8px;
+    font-size: 14px; background: #fff; color: #1a1a1a;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .tag-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .tag-pill {
+    padding: 5px 12px; border-radius: 99px; font-size: 12px;
+    border: 0.5px solid #ddd; color: #666; cursor: pointer; background: #fff;
+  }
+  .tag-pill.selected { background: #e8f2f0; border-color: #1d6b5e; color: #1d6b5e; }
+  .wizard-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
+
+  /* ===================== SCREEN 2: DASHBOARD ===================== */
+  .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .metric-card {
+    background: #fff; border: 0.5px solid #e5e5e5; border-radius: 8px; padding: 14px 16px;
+  }
+  .metric-label { font-size: 11px; color: #888; margin-bottom: 6px; }
+  .metric-value { font-size: 24px; font-weight: 500; color: #1a1a1a; }
+  .metric-value.p1c { color: #C00000; }
+  .metric-value.p2c { color: #4a9e8e; }
+  .metric-sub { font-size: 11px; color: #888; margin-top: 3px; }
+  .two-col { display: grid; grid-template-columns: 1fr 320px; gap: 14px; }
+  .pipeline-item {
+    display: flex; align-items: center; gap: 12px; padding: 10px 0;
+    border-bottom: 0.5px solid #f0f0ee;
+  }
+  .pipeline-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .pipeline-company { flex: 1; }
+  .pipeline-name { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .pipeline-role { font-size: 11px; color: #888; margin-top: 2px; }
+  .s-badge { font-size: 11px; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+  .s-applied { background: #e8f2f0; color: #1d6b5e; }
+  .s-interview { background: #faeeda; color: #854F0B; }
+  .s-offer { background: #EAF3DE; color: #3B6D11; }
+  .s-researching { background: #f2f2f0; color: #666; }
+  .priority-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .p1-dot { background: #C00000; }
+  .p2-dot { background: #4a9e8e; }
+  .p3-dot { background: #a8d5cd; }
+  .action-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 0.5px solid #f0f0ee; }
+  .action-item:last-child { border-bottom: none; }
+  .action-check { width: 16px; height: 16px; border-radius: 3px; border: 0.5px solid #ccc; flex-shrink: 0; margin-top: 1px; }
+  .action-text { font-size: 12px; color: #1a1a1a; line-height: 1.4; flex: 1; }
+  .action-meta { font-size: 10px; color: #888; margin-top: 2px; }
+  .action-tag { font-size: 10px; color: #888; background: #f2f2f0; border-radius: 99px; padding: 2px 7px; }
+
+  /* ===================== SCREEN 3: JD SCORECARD ===================== */
+  .body-two { flex: 1; display: grid; grid-template-columns: 1fr 300px; overflow: hidden; }
+  .left-panel { padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+  .right-panel {
+    border-left: 0.5px solid #e5e5e5; background: #fff; padding: 20px;
+    overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+  }
+  .right-panel-wide {
+    border-left: 0.5px solid #e5e5e5; background: #fff; padding: 20px;
+    overflow-y: auto; display: flex; flex-direction: column; gap: 16px; width: 260px;
+  }
+  .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .score-lens { border: 0.5px solid #e5e5e5; border-radius: 8px; padding: 12px; text-align: center; }
+  .lens-label { font-size: 10px; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .lens-score { font-size: 28px; font-weight: 500; }
+  .lens-score.high { color: #1d6b5e; }
+  .lens-score.mid { color: #854F0B; }
+  .lens-sub { font-size: 10px; color: #888; margin-top: 4px; }
+  .score-bar-wrap { background: #eee; border-radius: 99px; height: 4px; margin-top: 6px; }
+  .score-bar { height: 4px; border-radius: 99px; }
+  .bar-high { background: #1d6b5e; }
+  .bar-mid { background: #854F0B; }
+  .skill-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 0.5px solid #f0f0ee; }
+  .skill-row:last-child { border-bottom: none; }
+  .skill-name { font-size: 12px; color: #1a1a1a; flex: 1; }
+  .skill-status { font-size: 11px; padding: 2px 8px; border-radius: 99px; }
+  .skill-match { background: #e8f2f0; color: #1d6b5e; }
+  .skill-gap { background: #FCEBEB; color: #A32D2D; }
+  .skill-partial { background: #faeeda; color: #854F0B; }
+  .meta-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 0.5px solid #f0f0ee; }
+  .meta-row:last-child { border-bottom: none; }
+  .meta-key { font-size: 12px; color: #888; }
+  .meta-val { font-size: 12px; color: #1a1a1a; font-weight: 500; }
+  .jd-text { font-size: 12px; color: #888; line-height: 1.7; max-height: 110px; overflow: hidden; position: relative; }
+  .jd-expand { font-size: 11px; color: #1d6b5e; cursor: pointer; margin-top: 6px; }
+  .rp-btn-full {
+    width: 100%; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 500;
+    cursor: pointer; border: 0.5px solid #1d6b5e; background: #1d6b5e; color: #fff;
+    display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px;
+  }
+  .rp-btn-outline {
+    width: 100%; padding: 8px; border-radius: 8px; font-size: 12px; cursor: pointer;
+    border: 0.5px solid #1d6b5e; background: transparent; color: #1d6b5e;
+    display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 6px;
+  }
+
+  /* ===================== SCREEN 4: CHECKLIST ===================== */
+  .body-checklist { flex: 1; display: grid; grid-template-columns: 1fr 280px; overflow: hidden; }
+  .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .progress-track { flex: 1; background: #eee; border-radius: 99px; height: 6px; }
+  .progress-fill { background: #1d6b5e; height: 6px; border-radius: 99px; }
+  .progress-label { font-size: 12px; color: #888; white-space: nowrap; }
+  .phase-header { display: flex; align-items: center; gap: 8px; padding: 6px 0 8px; }
+  .phase-label { font-size: 11px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.07em; }
+  .phase-count { font-size: 10px; color: #888; background: #f2f2f0; padding: 2px 7px; border-radius: 99px; }
+  .phase-line { flex: 1; height: 0.5px; background: #e5e5e5; }
+  .task-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 0.5px solid #f0f0ee; }
+  .task-row:last-child { border-bottom: none; }
+  .task-row.done .task-text { color: #aaa; text-decoration: line-through; }
+  .check-box {
+    width: 16px; height: 16px; border-radius: 3px; border: 0.5px solid #ccc;
+    flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center;
+  }
+  .check-box.checked { background: #1d6b5e; border-color: #1d6b5e; }
+  .check-box.checked i { font-size: 11px; color: #fff; }
+  .task-body { flex: 1; }
+  .task-text { font-size: 13px; color: #1a1a1a; line-height: 1.4; }
+  .task-meta { display: flex; align-items: center; gap: 8px; margin-top: 3px; flex-wrap: wrap; }
+  .task-due { font-size: 10px; color: #888; }
+  .task-due.today { color: #854F0B; }
+  .p-badge { font-size: 10px; padding: 1px 6px; border-radius: 99px; }
+  .p1-badge { background: #FCEBEB; color: #A32D2D; }
+  .p2-badge { background: #e8f2f0; color: #1d6b5e; }
+  .p3-badge { background: #f2f2f0; color: #888; }
+  .task-note { font-size: 11px; color: #aaa; font-style: italic; margin-top: 3px; }
+  .task-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .icon-btn { background: none; border: none; cursor: pointer; color: #aaa; font-size: 14px; padding: 2px; }
+  .stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid #f0f0ee; font-size: 12px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-key { color: #888; }
+  .stat-val { color: #1a1a1a; font-weight: 500; }
+
+  /* ===================== SCREEN 5: RESUME LIBRARY ===================== */
+  .resume-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
+  .resume-card {
+    background: #fff; border: 0.5px solid #e5e5e5; border-radius: 12px; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .resume-card.primary-card { border: 2px solid #1d6b5e; }
+  .resume-thumb {
+    background: #f5f5f3; border-radius: 8px; height: 100px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .resume-thumb i { font-size: 28px; color: #aaa; }
+  .resume-name { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .resume-meta { font-size: 11px; color: #888; }
+  .resume-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .resume-actions { display: flex; gap: 6px; }
+
+  /* ===================== SCREEN 6: STORY BANK ===================== */
+  .body-story { flex: 1; display: grid; grid-template-columns: 1fr 260px; overflow: hidden; }
+  .story-card { background: #fff; border: 0.5px solid #e5e5e5; border-radius: 12px; padding: 16px 18px; }
+  .story-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+  .story-title { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .story-actions-row { display: flex; gap: 6px; flex-shrink: 0; }
+  .story-summary { font-size: 12px; color: #666; line-height: 1.6; margin-bottom: 10px; }
+  .star-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; }
+  .star-cell { background: #f5f5f3; border-radius: 6px; padding: 6px 8px; }
+  .star-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.07em; color: #888; margin-bottom: 3px; }
+  .star-text { font-size: 11px; color: #1a1a1a; line-height: 1.4; }
+  .theme-list { display: flex; flex-direction: column; gap: 6px; }
+  .theme-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+  .theme-name { color: #1a1a1a; }
+  .theme-count { font-size: 11px; color: #888; background: #f2f2f0; padding: 1px 7px; border-radius: 99px; }
+
+  /* ===================== SCREEN 7: ELEVATOR PITCHES ===================== */
+  .body-pitch { flex: 1; display: grid; grid-template-columns: 1fr 260px; overflow: hidden; }
+  .master-card {
+    background: #fff; border: 2px solid #1d6b5e; border-radius: 12px; padding: 18px 20px;
+  }
+  .pitch-text {
+    font-size: 13px; color: #1a1a1a; line-height: 1.7;
+    background: #f5f5f3; border-radius: 8px; padding: 12px 14px;
+  }
+  .variant-card { background: #fff; border: 0.5px solid #e5e5e5; border-radius: 12px; padding: 16px 18px; }
+  .variant-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .variant-label { font-size: 11px; color: #888; background: #f2f2f0; padding: 2px 8px; border-radius: 99px; }
+  .variant-text { font-size: 12px; color: #666; line-height: 1.7; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+  .word-count { font-size: 11px; color: #888; }
+  .linked-job { font-size: 12px; color: #1a1a1a; padding: 6px 0; border-bottom: 0.5px solid #f0f0ee; display: flex; justify-content: space-between; }
+  .linked-job:last-child { border-bottom: none; }
+  .linked-role { color: #888; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eyebrow">Portfolio artifact · UX Design</div>
+  <div class="cover-title">JSP App v2 — UI Wireframes</div>
+  <p class="cover-sub">High-fidelity wireframes for all primary screens. Design system: warm cream background (#FAF7F2), deep teal (#1d6b5e) primary, Playfair Display headings, Inter body. All AI surfaces are on-demand via the ✦ button pattern — never auto-appearing.</p>
+  <div class="cover-meta">
+    <span><strong>Version</strong> 1.0</span>
+    <span><strong>Date</strong> June 2026</span>
+    <span><strong>Author</strong> Connie Worley</span>
+    <span><strong>Stack</strong> React + Vite · Supabase · Anthropic API</span>
+  </div>
+</div>
+
+<!-- INDEX -->
+<div class="screen-index">
+  <div class="index-title">Screens in this document</div>
+  <div class="index-list">
+    <div class="index-item"><span class="index-num">01</span> Setup wizard</div>
+    <div class="index-item"><span class="index-num">02</span> Dashboard</div>
+    <div class="index-item"><span class="index-num">03</span> Job details / JD scorecard</div>
+    <div class="index-item"><span class="index-num">04</span> Active search checklist</div>
+    <div class="index-item"><span class="index-num">05</span> Resume library</div>
+    <div class="index-item"><span class="index-num">06</span> Story bank</div>
+    <div class="index-item"><span class="index-num">07</span> Elevator pitches</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 1: SETUP WIZARD -->
+<!-- ============================================================ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div>
+      <div class="screen-num">Screen 01</div>
+      <div class="screen-title">Setup wizard — Role target profile</div>
+    </div>
+    <div class="screen-notes">Step 1 of 5. Nav items locked until setup completes. AI hint visible but only fires on user request.</div>
+  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><div class="logo-text">Job Search Playbook</div><div class="logo-sub">v2</div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Setup</div>
+        <div class="nav-item active"><i class="ti ti-settings"></i> Setup wizard</div>
+        <div class="nav-section-label">Search</div>
+        <div class="nav-item locked"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item locked"><i class="ti ti-briefcase"></i> Job pipeline</div>
+        <div class="nav-item locked"><i class="ti ti-checklist"></i> Checklists</div>
+        <div class="nav-item locked"><i class="ti ti-building"></i> Target companies</div>
+        <div class="nav-section-label">Resources</div>
+        <div class="nav-item locked"><i class="ti ti-file-text"></i> Resume library</div>
+        <div class="nav-item locked"><i class="ti ti-message-circle"></i> Story bank</div>
+        <div class="nav-item locked"><i class="ti ti-speakerphone"></i> Elevator pitches</div>
+      </nav>
+      <div class="sidebar-footer"><div class="user-row"><div class="avatar">CW</div><div class="user-name">Connie Worley</div></div></div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <span class="topbar-title">Setup wizard</span>
+        <span style="font-size:12px;color:#888;">Step 1 of 5</span>
+      </div>
+      <div class="content">
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:20%"></div></div>
+        <div class="steps-row">
+          <div class="step-pill"><div class="step-dot active">1</div><div class="step-label active">Role target</div></div>
+          <div class="step-pill"><div class="step-dot">2</div><div class="step-label">Ideal company</div></div>
+          <div class="step-pill"><div class="step-dot">3</div><div class="step-label">Resumes</div></div>
+          <div class="step-pill"><div class="step-dot">4</div><div class="step-label">Story bank</div></div>
+          <div class="step-pill"><div class="step-dot">5</div><div class="step-label">Elevator pitch</div></div>
+        </div>
+        <div class="wizard-card">
+          <h2>What roles are you targeting?</h2>
+          <p class="subtitle">This shapes everything — your scorecard weights, checklist priorities, and AI prompts all draw from your role target profile.</p>
+          <div class="field-group">
+            <label class="field-label">Primary job title(s)</label>
+            <input class="field-input" type="text" placeholder="e.g. AI Business Process Analyst, Operations Consultant" />
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label class="field-label">Seniority level</label>
+              <select class="field-input"><option>Mid-level (3–6 yrs)</option><option>Senior (6–10 yrs)</option><option>Director / Lead</option></select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Work arrangement</label>
+              <select class="field-input"><option>Remote preferred</option><option>Hybrid</option><option>On-site</option></select>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Industries of interest</label>
+            <div class="tag-group">
+              <div class="tag-pill selected">Tech</div>
+              <div class="tag-pill selected">Consulting</div>
+              <div class="tag-pill">Healthcare</div>
+              <div class="tag-pill">Finance</div>
+              <div class="tag-pill">Nonprofit</div>
+              <div class="tag-pill">+ Add</div>
+            </div>
+          </div>
+          <div class="ai-surface" style="margin-top:20px;">
+            <i class="ti ti-sparkles"></i>
+            <span>✦ AI can review your role target and flag gaps or inconsistencies — available after you save this step.</span>
+          </div>
+          <div class="wizard-footer">
+            <button class="btn-ghost">Skip for now</button>
+            <div style="display:flex;gap:10px;">
+              <button class="btn-outline">Back</button>
+              <button class="btn-primary">Save &amp; continue →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 2: DASHBOARD -->
+<!-- ============================================================ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div>
+      <div class="screen-num">Screen 02</div>
+      <div class="screen-title">Dashboard</div>
+    </div>
+    <div class="screen-notes">At-a-glance pipeline health, open action items, and search progress. ✦ AI pipeline summary is on-demand only.</div>
+  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><div class="logo-text">Job Search Playbook</div><div class="logo-sub">v2</div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Search</div>
+        <div class="nav-item active"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item"><i class="ti ti-briefcase"></i> Job pipeline</div>
+        <div class="nav-item"><i class="ti ti-checklist"></i> Checklists</div>
+        <div class="nav-item"><i class="ti ti-building"></i> Target companies</div>
+        <div class="nav-section-label">Resources</div>
+        <div class="nav-item"><i class="ti ti-file-text"></i> Resume library</div>
+        <div class="nav-item"><i class="ti ti-message-circle"></i> Story bank</div>
+        <div class="nav-item"><i class="ti ti-speakerphone"></i> Elevator pitches</div>
+        <div class="nav-section-label">Account</div>
+        <div class="nav-item"><i class="ti ti-settings"></i> Setup &amp; settings</div>
+      </nav>
+      <div class="sidebar-footer"><div class="user-row"><div class="avatar">CW</div><div class="user-name">Connie Worley</div></div></div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <span class="topbar-title">Dashboard</span>
+        <button class="btn-sm">+ Add job</button>
+      </div>
+      <div class="content">
+        <div class="metric-row">
+          <div class="metric-card"><div class="metric-label">Active jobs</div><div class="metric-value">8</div><div class="metric-sub">3 need attention</div></div>
+          <div class="metric-card"><div class="metric-label">P1 open tasks</div><div class="metric-value p1c">4</div><div class="metric-sub">Due this week</div></div>
+          <div class="metric-card"><div class="metric-label">Interviews scheduled</div><div class="metric-value p2c">2</div><div class="metric-sub">Next: Tue 6/25</div></div>
+          <div class="metric-card"><div class="metric-label">Offers</div><div class="metric-value">1</div><div class="metric-sub">Pending decision</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Job pipeline</span><span class="card-link">View all →</span></div>
+            <div class="pipeline-item"><div class="priority-dot p1-dot"></div><div class="pipeline-company"><div class="pipeline-name">Anthropic</div><div class="pipeline-role">AI Operations Analyst</div></div><span class="s-badge s-interview">Interview</span></div>
+            <div class="pipeline-item"><div class="priority-dot p1-dot"></div><div class="pipeline-company"><div class="pipeline-name">Accenture</div><div class="pipeline-role">Business Process Consultant</div></div><span class="s-badge s-applied">Applied</span></div>
+            <div class="pipeline-item"><div class="priority-dot p2-dot"></div><div class="pipeline-company"><div class="pipeline-name">Deloitte</div><div class="pipeline-role">AI Strategy Consultant</div></div><span class="s-badge s-researching">Researching</span></div>
+            <div class="pipeline-item"><div class="priority-dot p2-dot"></div><div class="pipeline-company"><div class="pipeline-name">ServiceNow</div><div class="pipeline-role">Process Automation Analyst</div></div><span class="s-badge s-applied">Applied</span></div>
+            <div class="pipeline-item"><div class="priority-dot p3-dot"></div><div class="pipeline-company"><div class="pipeline-name">Google</div><div class="pipeline-role">Operations Program Manager</div></div><span class="s-badge s-offer">Offer</span></div>
+            <div class="ai-surface" style="margin-top:14px;"><i class="ti ti-sparkles"></i><span>✦ Ask AI to summarize your pipeline health or flag stalled applications.</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="card">
+              <div class="card-header"><span class="card-title">Open action items</span><span class="card-link">View all →</span></div>
+              <div class="action-item"><div class="action-check"></div><div style="flex:1;"><div class="action-text">Send thank-you note — Anthropic screen</div><div class="action-meta">Due today · <span style="color:#C00000;">P1</span></div></div><span class="action-tag">Anthropic</span></div>
+              <div class="action-item"><div class="action-check"></div><div style="flex:1;"><div class="action-text">Tailor resume to JD — Accenture</div><div class="action-meta">Due tomorrow · <span style="color:#C00000;">P1</span></div></div><span class="action-tag">Accenture</span></div>
+              <div class="action-item"><div class="action-check"></div><div style="flex:1;"><div class="action-text">Research panel interviewers — LinkedIn</div><div class="action-meta">Due Jun 24 · <span style="color:#4a9e8e;">P2</span></div></div><span class="action-tag">Anthropic</span></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><span class="card-title">Search health</span></div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:4px;"><span>Applications sent</span><span>5 / 8</span></div><div style="background:#eee;border-radius:99px;height:5px;"><div style="background:#1d6b5e;width:62%;height:5px;border-radius:99px;"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:4px;"><span>Checklists on track</span><span>3 / 5</span></div><div style="background:#eee;border-radius:99px;height:5px;"><div style="background:#4a9e8e;width:60%;height:5px;border-radius:99px;"></div></div></div>
+                <div><div style="display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:4px;"><span>Tasks overdue</span><span>1</span></div><div style="background:#eee;border-radius:99px;height:5px;"><div style="background:#C00000;width:12%;height:5px;border-radius:99px;"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 3: JD SCORECARD -->
+<!-- ============================================================ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div>
+      <div class="screen-num">Screen 03</div>
+      <div class="screen-title">Job details — JD scorecard</div>
+    </div>
+    <div class="screen-notes">Three-lens scorecard: resume match, company fit, role fit. AI summary and skills gap both on-demand. Right panel houses metadata and quick AI tools.</div>
+  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><div class="logo-text">Job Search Playbook</div><div class="logo-sub">v2</div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Search</div>
+        <div class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item active"><i class="ti ti-briefcase"></i> Job pipeline</div>
+        <div class="nav-item"><i class="ti ti-checklist"></i> Checklists</div>
+        <div class="nav-item"><i class="ti ti-building"></i> Target companies</div>
+        <div class="nav-section-label">Resources</div>
+        <div class="nav-item"><i class="ti ti-file-text"></i> Resume library</div>
+        <div class="nav-item"><i class="ti ti-message-circle"></i> Story bank</div>
+        <div class="nav-item"><i class="ti ti-speakerphone"></i> Elevator pitches</div>
+        <div class="nav-section-label">Account</div>
+        <div class="nav-item"><i class="ti ti-settings"></i> Setup &amp; settings</div>
+      </nav>
+      <div class="sidebar-footer"><div class="user-row"><div class="avatar">CW</div><div class="user-name">Connie Worley</div></div></div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-back"><i class="ti ti-arrow-left"></i> Pipeline</span>
+          <span style="color:#ddd;">|</span>
+          <span class="topbar-title">Anthropic — AI Operations Analyst</span>
+        </div>
+        <div class="topbar-right"><span class="priority-badge">P1</span><span class="stage-badge">Interview</span></div>
+      </div>
+      <div class="body-two">
+        <div class="left-panel">
+          <div class="card">
+            <div class="card-header"><span class="card-title">JD scorecard</span><span class="card-action"><i class="ti ti-sparkles"></i> ✦ Run scorecard</span></div>
+            <div class="score-grid">
+              <div class="score-lens"><div class="lens-label">Resume match</div><div class="lens-score high">84%</div><div class="score-bar-wrap"><div class="score-bar bar-high" style="width:84%"></div></div><div class="lens-sub">Strong alignment</div></div>
+              <div class="score-lens"><div class="lens-label">Company fit</div><div class="lens-score high">91%</div><div class="score-bar-wrap"><div class="score-bar bar-high" style="width:91%"></div></div><div class="lens-sub">Ideal match</div></div>
+              <div class="score-lens"><div class="lens-label">Role fit</div><div class="lens-score mid">67%</div><div class="score-bar-wrap"><div class="score-bar bar-mid" style="width:67%"></div></div><div class="lens-sub">Some gaps</div></div>
+            </div>
+            <div class="ai-result" style="margin-top:12px;"><div class="ai-result-label"><i class="ti ti-sparkles"></i> AI scorecard summary</div>Strong resume and culture alignment. Role fit gap is driven by limited formal project management experience — your process analysis background partially covers it. Worth addressing directly in your cover letter.</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Skills gap analysis</span><span class="card-action"><i class="ti ti-sparkles"></i> ✦ Analyze gaps</span></div>
+            <div class="skill-row"><span class="skill-name">Process analysis &amp; documentation</span><span class="skill-status skill-match">Match</span></div>
+            <div class="skill-row"><span class="skill-name">AI/ML operations knowledge</span><span class="skill-status skill-match">Match</span></div>
+            <div class="skill-row"><span class="skill-name">Stakeholder communication</span><span class="skill-status skill-match">Match</span></div>
+            <div class="skill-row"><span class="skill-name">Formal project management (PMP/Agile)</span><span class="skill-status skill-gap">Gap</span></div>
+            <div class="skill-row"><span class="skill-name">SQL / data querying</span><span class="skill-status skill-partial">Partial</span></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Job description</span><span class="card-action">Edit</span></div>
+            <div class="jd-text">We are looking for an AI Operations Analyst to help scale our internal AI tooling and process infrastructure. You will work cross-functionally with engineering, policy, and product teams to identify process gaps, document workflows, and design AI-integrated solutions. Strong analytical skills and experience with business process modeling required.</div>
+            <div class="jd-expand">Show full JD ↓</div>
+          </div>
+        </div>
+        <div class="right-panel">
+          <div>
+            <div class="panel-label">Job details</div>
+            <div class="meta-row"><span class="meta-key">Company</span><span class="meta-val">Anthropic</span></div>
+            <div class="meta-row"><span class="meta-key">Location</span><span class="meta-val">Remote (US)</span></div>
+            <div class="meta-row"><span class="meta-key">Salary range</span><span class="meta-val">$120–145k</span></div>
+            <div class="meta-row"><span class="meta-key">Source</span><span class="meta-val">LinkedIn</span></div>
+            <div class="meta-row"><span class="meta-key">Applied</span><span class="meta-val">Jun 20, 2026</span></div>
+          </div>
+          <div>
+            <div class="panel-label">Resume used</div>
+            <div style="font-size:12px;color:#1a1a1a;background:#f5f5f3;border-radius:8px;padding:9px 12px;display:flex;align-items:center;gap:8px;"><i class="ti ti-file-text" style="font-size:14px;color:#1d6b5e;"></i>Resume_AI_Ops_v3.pdf</div>
+          </div>
+          <div>
+            <div class="panel-label">AI tools</div>
+            <button class="rp-btn-outline"><i class="ti ti-sparkles"></i> ✦ Draft cover letter</button>
+            <button class="rp-btn-outline"><i class="ti ti-sparkles"></i> ✦ Match story bank</button>
+            <button class="rp-btn-outline"><i class="ti ti-sparkles"></i> ✦ Suggest talking points</button>
+          </div>
+          <div>
+            <div class="panel-label">Actions</div>
+            <button class="rp-btn-full"><i class="ti ti-checklist"></i> View checklist</button>
+          </div>
+          <div>
+            <div class="panel-label">Contacts at this company</div>
+            <div style="font-size:12px;color:#aaa;font-style:italic;">No contacts added yet.</div>
+            <div style="font-size:11px;color:#1d6b5e;margin-top:6px;cursor:pointer;">+ Add contact</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 4: CHECKLIST -->
+<!-- ============================================================ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div>
+      <div class="screen-num">Screen 04</div>
+      <div class="screen-title">Active search checklist</div>
+    </div>
+    <div class="screen-notes">Tasks organized by phase. Due dates auto-calculated from prior completion + configured offsets, with manual override. AI task suggestions are on-demand only.</div>
+  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><div class="logo-text">Job Search Playbook</div><div class="logo-sub">v2</div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Search</div>
+        <div class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item"><i class="ti ti-briefcase"></i> Job pipeline</div>
+        <div class="nav-item active"><i class="ti ti-checklist"></i> Checklists</div>
+        <div class="nav-item"><i class="ti ti-building"></i> Target companies</div>
+        <div class="nav-section-label">Resources</div>
+        <div class="nav-item"><i class="ti ti-file-text"></i> Resume library</div>
+        <div class="nav-item"><i class="ti ti-message-circle"></i> Story bank</div>
+        <div class="nav-item"><i class="ti ti-speakerphone"></i> Elevator pitches</div>
+        <div class="nav-section-label">Account</div>
+        <div class="nav-item"><i class="ti ti-settings"></i> Setup &amp; settings</div>
+      </nav>
+      <div class="sidebar-footer"><div class="user-row"><div class="avatar">CW</div><div class="user-name">Connie Worley</div></div></div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-back"><i class="ti ti-arrow-left"></i> Pipeline</span>
+          <span style="color:#ddd;">|</span>
+          <span class="topbar-title">Anthropic — AI Operations Analyst</span>
+        </div>
+        <div class="topbar-right"><span class="priority-badge">P1</span><span class="stage-badge">Interview</span></div>
+      </div>
+      <div class="body-checklist">
+        <div class="left-panel">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Application checklist</span><span class="card-action">+ Add task</span></div>
+            <div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:55%"></div></div><span class="progress-label">6 of 11 complete</span></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+              <div class="filter-pill active">All</div><div class="filter-pill">Open</div><div class="filter-pill">P1</div><div class="filter-pill">Done</div>
+            </div>
+            <div class="phase-header"><span class="phase-label">Pre-application</span><span class="phase-count">4 of 4 done</span><div class="phase-line"></div></div>
+            <div class="task-row done"><div class="check-box checked"><i class="ti ti-check"></i></div><div class="task-body"><div class="task-text">Import and score job description</div><div class="task-meta"><span class="task-due">Done Jun 18</span><span class="p-badge p1-badge">P1</span></div></div></div>
+            <div class="task-row done"><div class="check-box checked"><i class="ti ti-check"></i></div><div class="task-body"><div class="task-text">Run skills gap analysis</div><div class="task-meta"><span class="task-due">Done Jun 18</span><span class="p-badge p1-badge">P1</span></div></div></div>
+            <div class="task-row done"><div class="check-box checked"><i class="ti ti-check"></i></div><div class="task-body"><div class="task-text">Select and tailor resume</div><div class="task-meta"><span class="task-due">Done Jun 19</span><span class="p-badge p1-badge">P1</span></div></div></div>
+            <div class="task-row done"><div class="check-box checked"><i class="ti ti-check"></i></div><div class="task-body"><div class="task-text">Write and submit cover letter</div><div class="task-meta"><span class="task-due">Done Jun 20</span><span class="p-badge p1-badge">P1</span></div></div></div>
+            <div class="phase-header" style="margin-top:10px;"><span class="phase-label">Post-application</span><span class="phase-count">2 of 4 done</span><div class="phase-line"></div></div>
+            <div class="task-row done"><div class="check-box checked"><i class="ti ti-check"></i></div><div class="task-body"><div class="task-text">Connect with recruiter on LinkedIn</div><div class="task-meta"><span class="task-due">Done Jun 21</span><span class="p-badge p2-badge">P2</span></div></div></div>
+            <div class="task-row done"><div class="check-box checked"><i class="ti ti-check"></i></div><div class="task-body"><div class="task-text">Research hiring manager background</div><div class="task-meta"><span class="task-due">Done Jun 22</span><span class="p-badge p2-badge">P2</span></div></div></div>
+            <div class="task-row"><div class="check-box"></div><div class="task-body"><div class="task-text">Send thank-you note after screen</div><div class="task-meta"><span class="task-due today">Due today</span><span class="p-badge p1-badge">P1</span></div><div class="task-note">Auto-calculated from screen date (Jun 23) + 1 day offset</div></div><div class="task-actions"><button class="icon-btn" aria-label="Edit"><i class="ti ti-edit"></i></button></div></div>
+            <div class="task-row"><div class="check-box"></div><div class="task-body"><div class="task-text">Follow up if no response in 5 days</div><div class="task-meta"><span class="task-due">Due Jun 28</span><span class="p-badge p2-badge">P2</span></div><div class="task-note">Auto-calculated · override available</div></div><div class="task-actions"><button class="icon-btn" aria-label="Edit"><i class="ti ti-edit"></i></button></div></div>
+            <div class="phase-header" style="margin-top:10px;"><span class="phase-label">Interview prep</span><span class="phase-count">0 of 3 done</span><div class="phase-line"></div></div>
+            <div class="task-row"><div class="check-box"></div><div class="task-body"><div class="task-text">Research panel interviewers on LinkedIn</div><div class="task-meta"><span class="task-due">Due Jun 24</span><span class="p-badge p1-badge">P1</span></div></div><div class="task-actions"><button class="icon-btn" aria-label="Edit"><i class="ti ti-edit"></i></button></div></div>
+            <div class="task-row"><div class="check-box"></div><div class="task-body"><div class="task-text">Match STAR stories to likely questions</div><div class="task-meta"><span class="task-due">Due Jun 24</span><span class="p-badge p1-badge">P1</span></div></div><div class="task-actions"><button class="icon-btn" aria-label="Edit"><i class="ti ti-edit"></i></button></div></div>
+            <div class="task-row"><div class="check-box"></div><div class="task-body"><div class="task-text">Review and rehearse elevator pitch variant</div><div class="task-meta"><span class="task-due">Due Jun 24</span><span class="p-badge p2-badge">P2</span></div></div><div class="task-actions"><button class="icon-btn" aria-label="Edit"><i class="ti ti-edit"></i></button></div></div>
+            <div class="ai-surface" style="margin-top:14px;"><i class="ti ti-sparkles"></i><span>✦ Ask AI to suggest additional tasks or flag anything missing from your prep.</span></div>
+          </div>
+        </div>
+        <div class="right-panel">
+          <div><div class="panel-label">Checklist progress</div><div class="stat-row"><span class="stat-key">Complete</span><span class="stat-val">6 of 11</span></div><div class="stat-row"><span class="stat-key">Open P1 tasks</span><span class="stat-val" style="color:#A32D2D;">3</span></div><div class="stat-row"><span class="stat-key">Due today</span><span class="stat-val" style="color:#854F0B;">1</span></div><div class="stat-row"><span class="stat-key">Overdue</span><span class="stat-val">0</span></div></div>
+          <div><div class="panel-label">Due dates</div><div style="font-size:11px;color:#888;line-height:1.6;">Due dates auto-calculate from prior task completion timestamps using offsets configured in Setup. Override any date manually.</div></div>
+          <div><div class="panel-label">AI tools</div><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Match story bank</button><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Suggest talking points</button><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Review pitch variant</button></div>
+          <div><div class="panel-label">Jump to</div><div style="display:flex;flex-direction:column;gap:6px;"><div style="font-size:12px;color:#1d6b5e;cursor:pointer;">→ Job details &amp; scorecard</div><div style="font-size:12px;color:#1d6b5e;cursor:pointer;">→ Resume library</div><div style="font-size:12px;color:#1d6b5e;cursor:pointer;">→ Story bank</div><div style="font-size:12px;color:#1d6b5e;cursor:pointer;">→ Elevator pitches</div></div></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 5: RESUME LIBRARY -->
+<!-- ============================================================ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div>
+      <div class="screen-num">Screen 05</div>
+      <div class="screen-title">Resume library</div>
+    </div>
+    <div class="screen-notes">Up to 3 master resumes. Primary resume marked. ✦ AI can compare against a specific JD before applying.</div>
+  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><div class="logo-text">Job Search Playbook</div><div class="logo-sub">v2</div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Search</div>
+        <div class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item"><i class="ti ti-briefcase"></i> Job pipeline</div>
+        <div class="nav-item"><i class="ti ti-checklist"></i> Checklists</div>
+        <div class="nav-item"><i class="ti ti-building"></i> Target companies</div>
+        <div class="nav-section-label">Resources</div>
+        <div class="nav-item active"><i class="ti ti-file-text"></i> Resume library</div>
+        <div class="nav-item"><i class="ti ti-message-circle"></i> Story bank</div>
+        <div class="nav-item"><i class="ti ti-speakerphone"></i> Elevator pitches</div>
+        <div class="nav-section-label">Account</div>
+        <div class="nav-item"><i class="ti ti-settings"></i> Setup &amp; settings</div>
+      </nav>
+      <div class="sidebar-footer"><div class="user-row"><div class="avatar">CW</div><div class="user-name">Connie Worley</div></div></div>
+    </aside>
+    <main class="main">
+      <div class="topbar"><span class="topbar-title">Resume library</span><button class="btn-sm">+ Upload resume</button></div>
+      <div class="content">
+        <p class="page-intro">Store 2–3 master resumes tailored to different role types. When you apply to a job, select the best-fit resume — then tailor from there.</p>
+        <div class="resume-grid">
+          <div class="resume-card primary-card">
+            <div class="primary-label">Primary</div>
+            <div class="resume-thumb"><i class="ti ti-file-text"></i></div>
+            <div class="resume-name">Resume_AI_Ops_v3.pdf</div>
+            <div class="resume-meta">Updated Jun 19, 2026 · 1 page</div>
+            <div class="resume-tags"><span class="tag primary-tag">AI Operations</span><span class="tag primary-tag">Process Analysis</span></div>
+            <div class="resume-actions"><button class="btn-xs teal">View</button><button class="btn-xs">Replace</button><button class="btn-xs">Notes</button></div>
+          </div>
+          <div class="resume-card">
+            <div class="resume-thumb"><i class="ti ti-file-text"></i></div>
+            <div class="resume-name">Resume_Consulting_v2.pdf</div>
+            <div class="resume-meta">Updated Jun 10, 2026 · 1 page</div>
+            <div class="resume-tags"><span class="tag">Consulting</span><span class="tag">Strategy</span></div>
+            <div class="resume-actions"><button class="btn-xs teal">View</button><button class="btn-xs">Replace</button><button class="btn-xs">Notes</button></div>
+          </div>
+          <div class="resume-card" style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:200px;cursor:pointer;">
+            <div style="text-align:center;color:#aaa;"><i class="ti ti-plus" style="font-size:24px;display:block;margin-bottom:8px;"></i><div style="font-size:12px;">Add resume</div><div style="font-size:11px;margin-top:2px;">Up to 3 total</div></div>
+          </div>
+        </div>
+        <div class="ai-surface"><i class="ti ti-sparkles"></i><span>✦ Ask AI to compare a resume against a specific job description and suggest targeted edits before you apply.</span></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 6: STORY BANK -->
+<!-- ============================================================ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div>
+      <div class="screen-num">Screen 06</div>
+      <div class="screen-title">Story bank</div>
+    </div>
+    <div class="screen-notes">5–6 STAR stories tagged by theme. Right panel tracks coverage gaps. ✦ AI matches stories to interview questions on demand.</div>
+  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><div class="logo-text">Job Search Playbook</div><div class="logo-sub">v2</div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Search</div>
+        <div class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item"><i class="ti ti-briefcase"></i> Job pipeline</div>
+        <div class="nav-item"><i class="ti ti-checklist"></i> Checklists</div>
+        <div class="nav-item"><i class="ti ti-building"></i> Target companies</div>
+        <div class="nav-section-label">Resources</div>
+        <div class="nav-item"><i class="ti ti-file-text"></i> Resume library</div>
+        <div class="nav-item active"><i class="ti ti-message-circle"></i> Story bank</div>
+        <div class="nav-item"><i class="ti ti-speakerphone"></i> Elevator pitches</div>
+        <div class="nav-section-label">Account</div>
+        <div class="nav-item"><i class="ti ti-settings"></i> Setup &amp; settings</div>
+      </nav>
+      <div class="sidebar-footer"><div class="user-row"><div class="avatar">CW</div><div class="user-name">Connie Worley</div></div></div>
+    </aside>
+    <main class="main">
+      <div class="topbar"><span class="topbar-title">Story bank</span><button class="btn-sm">+ Add story</button></div>
+      <div class="body-story">
+        <div class="left-panel">
+          <p class="page-intro">5–6 STAR stories that travel across roles. Tag by theme so AI can match them to likely interview questions.</p>
+          <div class="story-card">
+            <div class="story-header"><div class="story-title">Led process redesign for manual intake workflow</div><div class="story-actions-row"><button class="icon-btn" aria-label="Edit"><i class="ti ti-edit"></i></button><button class="icon-btn" aria-label="Delete"><i class="ti ti-trash"></i></button></div></div>
+            <p class="story-summary">Identified a 4-step manual intake process causing 3-day delays. Redesigned flow using automated routing and documented the new process in BPMN. Reduced intake time by 60%.</p>
+            <div class="star-row">
+              <div class="star-cell"><div class="star-label">Situation</div><div class="star-text">Manual intake causing delays</div></div>
+              <div class="star-cell"><div class="star-label">Task</div><div class="star-text">Redesign and document new flow</div></div>
+              <div class="star-cell"><div class="star-label">Action</div><div class="star-text">Mapped process, built BPMN, coordinated rollout</div></div>
+              <div class="star-cell"><div class="star-label">Result</div><div class="star-text">60% reduction in intake time</div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px;"><span class="tag theme">Process improvement</span><span class="tag theme">Cross-functional</span><span class="tag">Operations</span></div>
+          </div>
+          <div class="story-card">
+            <div class="story-header"><div class="story-title">Managed stakeholder alignment on competing priorities</div><div class="story-actions-row"><button class="icon-btn" aria-label="Edit"><i class="ti ti-edit"></i></button><button class="icon-btn" aria-label="Delete"><i class="ti ti-trash"></i></button></div></div>
+            <p class="story-summary">Two business units had conflicting requirements for the same system. Facilitated a structured working session, surfaced the root misalignment, and co-created a phased solution both teams accepted.</p>
+            <div class="star-row">
+              <div class="star-cell"><div class="star-label">Situation</div><div class="star-text">Conflicting stakeholder requirements</div></div>
+              <div class="star-cell"><div class="star-label">Task</div><div class="star-text">Broker consensus without losing either team</div></div>
+              <div class="star-cell"><div class="star-label">Action</div><div class="star-text">Facilitated session, mapped needs, proposed phased plan</div></div>
+              <div class="star-cell"><div class="star-label">Result</div><div class="star-text">Unanimous sign-off, project unblocked</div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px;"><span class="tag theme">Stakeholder management</span><span class="tag theme">Influence without authority</span></div>
+          </div>
+          <div class="ai-surface"><i class="ti ti-sparkles"></i><span>✦ Ask AI to match your stories to likely interview questions for a specific job, or identify themes missing from your bank.</span></div>
+        </div>
+        <div class="right-panel-wide">
+          <div><div class="panel-label">Story count</div><div style="font-size:22px;font-weight:500;color:#1a1a1a;">2 <span style="font-size:13px;color:#888;font-weight:400;">of 6 target</span></div><div style="font-size:11px;color:#888;margin-top:4px;">Add 4 more to reach a strong interview-ready bank.</div></div>
+          <div><div class="panel-label">Themes covered</div><div class="theme-list"><div class="theme-row"><span class="theme-name">Process improvement</span><span class="theme-count">1</span></div><div class="theme-row"><span class="theme-name">Stakeholder management</span><span class="theme-count">1</span></div><div class="theme-row"><span class="theme-name" style="color:#aaa;">Leadership / influence</span><span class="theme-count">0</span></div><div class="theme-row"><span class="theme-name" style="color:#aaa;">Handling ambiguity</span><span class="theme-count">0</span></div><div class="theme-row"><span class="theme-name" style="color:#aaa;">Failure / lesson learned</span><span class="theme-count">0</span></div></div></div>
+          <div><div class="panel-label">AI tools</div><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Match to job</button><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Find theme gaps</button><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Strengthen a story</button></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN 7: ELEVATOR PITCHES -->
+<!-- ============================================================ -->
+<div class="screen-section">
+  <div class="screen-header">
+    <div>
+      <div class="screen-num">Screen 07</div>
+      <div class="screen-title">Elevator pitches</div>
+    </div>
+    <div class="screen-notes">One master pitch with role-tailored variants. Right panel shows which variant is linked to each active job. ✦ AI can generate or tighten variants on demand.</div>
+  </div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><div class="logo-text">Job Search Playbook</div><div class="logo-sub">v2</div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Search</div>
+        <div class="nav-item"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+        <div class="nav-item"><i class="ti ti-briefcase"></i> Job pipeline</div>
+        <div class="nav-item"><i class="ti ti-checklist"></i> Checklists</div>
+        <div class="nav-item"><i class="ti ti-building"></i> Target companies</div>
+        <div class="nav-section-label">Resources</div>
+        <div class="nav-item"><i class="ti ti-file-text"></i> Resume library</div>
+        <div class="nav-item"><i class="ti ti-message-circle"></i> Story bank</div>
+        <div class="nav-item active"><i class="ti ti-speakerphone"></i> Elevator pitches</div>
+        <div class="nav-section-label">Account</div>
+        <div class="nav-item"><i class="ti ti-settings"></i> Setup &amp; settings</div>
+      </nav>
+      <div class="sidebar-footer"><div class="user-row"><div class="avatar">CW</div><div class="user-name">Connie Worley</div></div></div>
+    </aside>
+    <main class="main">
+      <div class="topbar"><span class="topbar-title">Elevator pitches</span><button class="btn-sm">+ Add variant</button></div>
+      <div class="body-pitch">
+        <div class="left-panel">
+          <p class="page-intro">One master pitch, with role-tailored variants for each target type. Pull the right one before a screen or interview.</p>
+          <div class="master-card">
+            <div class="primary-label">Master pitch</div>
+            <div class="card-title">General — AI Business Process &amp; Operations</div>
+            <div class="pitch-text">I am a cross-functional business analyst with a background in process design, AI integration, and operational problem-solving. I specialize in diagnosing broken workflows, redesigning them with AI-augmented solutions, and translating that work into clear documentation and stakeholder-ready deliverables. My recent focus has been on building AI-integrated tools that keep the human in the decision seat — not handing judgment over to the machine.</div>
+            <div class="card-footer"><span class="word-count">68 words · ~30 sec</span><div style="display:flex;gap:6px;"><button class="btn-xs teal">Edit</button><button class="btn-xs">Copy</button></div></div>
+          </div>
+          <div class="variant-card">
+            <div class="variant-header"><div class="card-title" style="margin-bottom:0;">Variant — Consulting firms</div><span class="variant-label">Consulting</span></div>
+            <div class="variant-text" style="margin-top:8px;">I bring a consulting mindset to operational problems — I come in, diagnose the root cause, build the future-state design, and hand off clean documentation that the client's team can actually run. I have been applying that same rigor to AI integration, specifically around how organizations can adopt AI tools without losing process discipline.</div>
+            <div class="card-footer"><span class="word-count">58 words · ~25 sec</span><div style="display:flex;gap:6px;"><button class="btn-xs teal">Edit</button><button class="btn-xs">Copy</button></div></div>
+          </div>
+          <div class="variant-card">
+            <div class="variant-header"><div class="card-title" style="margin-bottom:0;">Variant — Tech / AI companies</div><span class="variant-label">Tech / AI</span></div>
+            <div class="variant-text" style="margin-top:8px;">I work at the intersection of process and AI — I map how work actually flows, find where AI creates the most leverage, and build the operational infrastructure around it. I am particularly interested in teams that are moving fast on AI adoption but need someone who can slow down long enough to make sure the process underneath it is sound.</div>
+            <div class="card-footer"><span class="word-count">63 words · ~27 sec</span><div style="display:flex;gap:6px;"><button class="btn-xs teal">Edit</button><button class="btn-xs">Copy</button></div></div>
+          </div>
+          <div class="ai-surface"><i class="ti ti-sparkles"></i><span>✦ Ask AI to review a pitch variant against a specific job description, or generate a tailored draft based on the role.</span></div>
+        </div>
+        <div class="right-panel-wide">
+          <div><div class="panel-label">Pitch inventory</div><div style="font-size:22px;font-weight:500;color:#1a1a1a;">3 <span style="font-size:13px;color:#888;font-weight:400;">pitches total</span></div><div style="font-size:11px;color:#888;margin-top:4px;">1 master · 2 variants</div></div>
+          <div><div class="panel-label">Linked to active jobs</div><div class="linked-job"><div><div>Anthropic</div><div class="linked-role">Tech / AI variant</div></div><span style="font-size:11px;color:#1d6b5e;">→</span></div><div class="linked-job"><div><div>Accenture</div><div class="linked-role">Consulting variant</div></div><span style="font-size:11px;color:#1d6b5e;">→</span></div><div class="linked-job"><div><div>Deloitte</div><div class="linked-role">Consulting variant</div></div><span style="font-size:11px;color:#1d6b5e;">→</span></div></div>
+          <div><div class="panel-label">AI tools</div><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Review vs. job JD</button><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Generate variant</button><button class="btn-outline-sm"><i class="ti ti-sparkles"></i> ✦ Tighten master pitch</button></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>
