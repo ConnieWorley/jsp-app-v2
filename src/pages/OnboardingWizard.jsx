@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/AuthContext"
 import { RoleTargetStep } from "@/components/onboarding/RoleTargetStep"
 import { FollowUpScheduleStep } from "@/components/onboarding/FollowUpScheduleStep"
+import { StorybankStep } from "@/components/onboarding/StorybankStep"
 
 const steps = [
   {
@@ -119,6 +120,8 @@ export function OnboardingWizard() {
         return <RoleTargetStep onValidityChange={reportValidity} />
       case "follow-up":
         return <FollowUpScheduleStep onValidityChange={reportValidity} />
+      case "storybank":
+        return <StorybankStep onValidityChange={reportValidity} />
       default:
         return (
           <p className="text-xs text-muted-foreground italic">
@@ -195,7 +198,7 @@ export function OnboardingWizard() {
           </div>
           {!currentValid && (
             <p className="text-sm text-muted-foreground text-right">
-              Complete this step to continue.
+              A little more here and you can keep going.
             </p>
           )}
         </div>

@@ -45,6 +45,11 @@ export function AuthProvider({ children }) {
       supabase.auth.updateUser({ data: { onboarding_complete: true } }),
     resetOnboarding: () =>
       supabase.auth.updateUser({ data: { onboarding_complete: false } }),
+    storybankDeferredAt: user?.user_metadata?.storybank_deferred_at ?? null,
+    deferStorybank: () =>
+      supabase.auth.updateUser({
+        data: { storybank_deferred_at: new Date().toISOString() },
+      }),
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
