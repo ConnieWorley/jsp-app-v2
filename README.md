@@ -110,3 +110,4 @@ Phase 2 (Architecture & Stack) begins next.
 
 Built by Connie Worley — process analyst and AI integration consultant.  
 Portfolio: [connieworley.netlify.app](https://connieworley.netlify.app/)  
+
