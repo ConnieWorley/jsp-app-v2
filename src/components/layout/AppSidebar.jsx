@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
   LayoutDashboard,
@@ -41,12 +42,33 @@ const navItems = [
 export function AppSidebar() {
   const location = useLocation()
   const navigate = useNavigate()
-  const { signOut, resetOnboarding } = useAuth()
+  const { signOut, resetOnboarding, onboardingComplete } = useAuth()
   const { setOpen, setOpenMobile, isMobile } = useSidebar()
+  const [showLockedBanner, setShowLockedBanner] = useState(false)
+  const dismissTimer = useRef(null)
+
+  useEffect(() => {
+    return () => {
+      if (dismissTimer.current) clearTimeout(dismissTimer.current)
+    }
+  }, [])
 
   function collapseSidebar() {
     if (isMobile) setOpenMobile(false)
     else setOpen(false)
+  }
+
+  // Intercept nav clicks when onboarding is incomplete. Surfaces a transient
+  // banner instead of letting the click silently bounce off App.jsx route guards.
+  function handleNavClick(e) {
+    if (onboardingComplete) {
+      collapseSidebar()
+      return
+    }
+    e.preventDefault()
+    setShowLockedBanner(true)
+    if (dismissTimer.current) clearTimeout(dismissTimer.current)
+    dismissTimer.current = setTimeout(() => setShowLockedBanner(false), 5000)
   }
 
   async function handleResetOnboarding() {
@@ -62,9 +84,14 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
+        {showLockedBanner && (
+          <div className="rounded-md border border-destructive text-destructive px-3 py-2 text-xs leading-snug">
+            Complete required sections of the Setup wizard.
+          </div>
+        )}
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton size="lg" asChild onClick={handleNavClick}>
               <Link to="/dashboard">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-heading text-lg">
                   J
@@ -90,7 +117,7 @@ export function AppSidebar() {
                       asChild
                       isActive={isActive}
                       tooltip={item.title}
-                      onClick={collapseSidebar}
+                      onClick={handleNavClick}
                     >
                       <Link to={item.to}>
                         <item.icon />

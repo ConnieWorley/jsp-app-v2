@@ -45,8 +45,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path="onboarding" element={<OnboardingWizard />} />
       <Route element={<AppShell />}>
+        <Route path="onboarding" element={<OnboardingWizard />} />
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="jobs" element={<JobsPage />} />

@@ -9,6 +9,7 @@ import { StorybankStep } from "@/components/onboarding/StorybankStep"
 import { JobBoardsStep } from "@/components/onboarding/JobBoardsStep"
 import { IdealCompanyStep } from "@/components/onboarding/IdealCompanyStep"
 import { ResumeLibraryStep } from "@/components/onboarding/ResumeLibraryStep"
+import { ElevatorPitchStep } from "@/components/onboarding/ElevatorPitchStep"
 
 const steps = [
   {
@@ -31,13 +32,6 @@ const steps = [
     us: "US-S003",
     description:
       "Upload up to 3 master resumes (PDF or Word) and label each one — say, \"Operations\" or \"Project Management.\" We will grab the right one when tailoring per job. 📄",
-  },
-  {
-    id: "pitch-library",
-    title: "Pitch Library",
-    us: "US-S004",
-    description:
-      "Stash 2–3 tailored professional summaries — one per role target. Optional AI assist if you want a draft. 💬",
   },
   {
     id: "storybank",
@@ -65,7 +59,7 @@ const steps = [
     title: "Setup Review",
     us: "US-S008",
     description:
-      "A recap of what is done vs. still open. Required: Ideal Company Quiz, Role Target, ≥1 resume, ≥1 story, Follow-Up Schedule. Recommended: Pitch Library, Elevator Pitch. ✅",
+      "A recap of what is done vs. still open. Required: Ideal Company Quiz, Role Target, ≥1 resume, ≥1 story, Follow-Up Schedule. Recommended: Elevator Pitch. ✅",
   },
   {
     id: "follow-up",
@@ -131,6 +125,8 @@ export function OnboardingWizard() {
         return <IdealCompanyStep onValidityChange={reportValidity} />
       case "resume-library":
         return <ResumeLibraryStep onValidityChange={reportValidity} />
+      case "elevator-pitch":
+        return <ElevatorPitchStep onValidityChange={reportValidity} />
       default:
         return (
           <p className="text-xs text-muted-foreground italic">

@@ -280,7 +280,7 @@ export function IdealCompanyStep({ onValidityChange }) {
           disabled={isFirst}
           onClick={() => setQuestionIndex((i) => Math.max(0, i - 1))}
         >
-          ← Previous
+          ← Previous question
         </Button>
 
         {isLast ? (
