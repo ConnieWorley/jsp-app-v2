@@ -48,6 +48,12 @@ export function FollowUpScheduleStep({ onValidityChange }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
   const [hasSavedRow, setHasSavedRow] = useState(false)
+  const [dirty, setDirty] = useState(false)
+
+  function setFormField(key, value) {
+    setForm((prev) => ({ ...prev, [key]: value }))
+    setDirty(true)
+  }
 
   useEffect(() => {
     let active = true
@@ -75,8 +81,8 @@ export function FollowUpScheduleStep({ onValidityChange }) {
   }, [])
 
   useEffect(() => {
-    onValidityChange?.(hasSavedRow)
-  }, [hasSavedRow, onValidityChange])
+    onValidityChange?.(hasSavedRow && !dirty)
+  }, [hasSavedRow, dirty, onValidityChange])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -100,6 +106,7 @@ export function FollowUpScheduleStep({ onValidityChange }) {
       return
     }
     setHasSavedRow(true)
+    setDirty(false)
   }
 
   if (loading) {
@@ -135,9 +142,7 @@ export function FollowUpScheduleStep({ onValidityChange }) {
                 type="number"
                 min="1"
                 value={form[f.key]}
-                onChange={(e) =>
-                  setForm((prev) => ({ ...prev, [f.key]: e.target.value }))
-                }
+                onChange={(e) => setFormField(f.key, e.target.value)}
               />
               <p className="text-xs text-muted-foreground">{f.anchor}</p>
             </div>
@@ -159,9 +164,7 @@ export function FollowUpScheduleStep({ onValidityChange }) {
                 type="number"
                 min="1"
                 value={form[f.key]}
-                onChange={(e) =>
-                  setForm((prev) => ({ ...prev, [f.key]: e.target.value }))
-                }
+                onChange={(e) => setFormField(f.key, e.target.value)}
               />
               <p className="text-xs text-muted-foreground">{f.anchor}</p>
             </div>
@@ -175,7 +178,12 @@ export function FollowUpScheduleStep({ onValidityChange }) {
         <Button type="submit" disabled={saving}>
           {saving ? "Saving…" : hasSavedRow ? "Update schedule" : "Save schedule"}
         </Button>
-        {hasSavedRow && !error && !saving && (
+        {hasSavedRow && dirty && !error && !saving && (
+          <p className="text-sm text-muted-foreground italic">
+            Your changes are not saved yet — click Update schedule to keep them.
+          </p>
+        )}
+        {hasSavedRow && !dirty && !error && !saving && (
           <p className="text-sm text-muted-foreground">
             Saved. You are good to continue.
           </p>
