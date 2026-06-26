@@ -50,9 +50,15 @@ export function StorybankStep({ onValidityChange }) {
   const [loading, setLoading] = useState(true)
   const [editingId, setEditingId] = useState(null)
   const [form, setForm] = useState(emptyForm)
+  const [originalForm, setOriginalForm] = useState(null)
   const [saving, setSaving] = useState(false)
   const [deferring, setDeferring] = useState(false)
   const [error, setError] = useState("")
+
+  const editIsDirty =
+    editingId !== null &&
+    originalForm !== null &&
+    JSON.stringify(form) !== JSON.stringify(originalForm)
 
   useEffect(() => {
     let active = true
@@ -68,24 +74,29 @@ export function StorybankStep({ onValidityChange }) {
   }, [])
 
   useEffect(() => {
-    onValidityChange?.(stories.length > 0 || !!storybankDeferredAt)
-  }, [stories.length, storybankDeferredAt, onValidityChange])
+    onValidityChange?.(
+      (stories.length > 0 || !!storybankDeferredAt) && !editIsDirty,
+    )
+  }, [stories.length, storybankDeferredAt, editIsDirty, onValidityChange])
 
   function resetForm() {
     setForm(emptyForm)
+    setOriginalForm(null)
     setEditingId(null)
     setError("")
   }
 
   function startEdit(story) {
-    setEditingId(story.id)
-    setForm({
+    const populated = {
       title: story.title,
       situation: story.situation,
       task: story.task,
       action: story.action,
       result: story.result,
-    })
+    }
+    setEditingId(story.id)
+    setForm(populated)
+    setOriginalForm(populated)
     setError("")
   }
 
@@ -253,6 +264,12 @@ export function StorybankStep({ onValidityChange }) {
         ))}
 
         {error && <p className="text-sm text-destructive">{error}</p>}
+
+        {editIsDirty && (
+          <p className="text-sm text-muted-foreground italic">
+            You have unsaved edits to this story — click Update story to keep them, or Cancel to discard.
+          </p>
+        )}
 
         <Button type="submit" disabled={saving}>
           {saving ? "Saving…" : editingId ? "Update story" : "Save story"}
