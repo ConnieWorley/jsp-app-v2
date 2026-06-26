@@ -16,6 +16,7 @@ export function JobBoardsStep({ onValidityChange }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
   const [hasValidSave, setHasValidSave] = useState(false)
+  const [dirty, setDirty] = useState(false)
 
   useEffect(() => {
     let active = true
@@ -39,13 +40,14 @@ export function JobBoardsStep({ onValidityChange }) {
   }, [])
 
   useEffect(() => {
-    onValidityChange?.(hasValidSave)
-  }, [hasValidSave, onValidityChange])
+    onValidityChange?.(hasValidSave && !dirty)
+  }, [hasValidSave, dirty, onValidityChange])
 
   function toggleStandard(slug) {
     setSelectedStandard((prev) =>
       prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
     )
+    setDirty(true)
   }
 
   function addCustomBoard(e) {
@@ -59,10 +61,12 @@ export function JobBoardsStep({ onValidityChange }) {
     setCustomBoards((prev) => [...prev, { name, url }])
     setCustomForm(emptyCustomForm)
     setError("")
+    setDirty(true)
   }
 
   function removeCustomBoard(index) {
     setCustomBoards((prev) => prev.filter((_, i) => i !== index))
+    setDirty(true)
   }
 
   async function handleSave() {
@@ -83,6 +87,7 @@ export function JobBoardsStep({ onValidityChange }) {
       return
     }
     setHasValidSave(true)
+    setDirty(false)
   }
 
   if (loading) {
@@ -227,15 +232,22 @@ export function JobBoardsStep({ onValidityChange }) {
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
-      <div className="flex items-center justify-between rounded-lg border border-border bg-card p-4 gap-4">
-        <p className="text-sm text-muted-foreground">{tally}</p>
-        <Button
-          type="button"
-          onClick={handleSave}
-          disabled={saving || totalSelected === 0}
-        >
-          {saving ? "Saving…" : hasValidSave ? "Update picks" : "Save picks"}
-        </Button>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between rounded-lg border border-border bg-card p-4 gap-4">
+          <p className="text-sm text-muted-foreground">{tally}</p>
+          <Button
+            type="button"
+            onClick={handleSave}
+            disabled={saving || totalSelected === 0}
+          >
+            {saving ? "Saving…" : hasValidSave ? "Update picks" : "Save picks"}
+          </Button>
+        </div>
+        {hasValidSave && dirty && (
+          <p className="text-sm text-muted-foreground italic text-right">
+            Your changes are not saved yet — click Update picks to keep them.
+          </p>
+        )}
       </div>
     </div>
   )
