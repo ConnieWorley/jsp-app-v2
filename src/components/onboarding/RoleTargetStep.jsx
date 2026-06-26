@@ -43,8 +43,14 @@ export function RoleTargetStep({ onValidityChange }) {
   const [loading, setLoading] = useState(true)
   const [editingId, setEditingId] = useState(null)
   const [form, setForm] = useState(emptyForm)
+  const [originalForm, setOriginalForm] = useState(null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
+
+  const editIsDirty =
+    editingId !== null &&
+    originalForm !== null &&
+    JSON.stringify(form) !== JSON.stringify(originalForm)
 
   useEffect(() => {
     let active = true
@@ -60,8 +66,8 @@ export function RoleTargetStep({ onValidityChange }) {
   }, [])
 
   useEffect(() => {
-    onValidityChange?.(targets.length > 0)
-  }, [targets.length, onValidityChange])
+    onValidityChange?.(targets.length > 0 && !editIsDirty)
+  }, [targets.length, editIsDirty, onValidityChange])
 
   function toggleMode(value) {
     setForm((f) => ({
@@ -74,19 +80,22 @@ export function RoleTargetStep({ onValidityChange }) {
 
   function resetForm() {
     setForm(emptyForm)
+    setOriginalForm(null)
     setEditingId(null)
     setError("")
   }
 
   function startEdit(target) {
-    setEditingId(target.id)
-    setForm({
+    const populated = {
       job_title: target.job_title,
       salary_min: target.salary_min ?? "",
       salary_target: target.salary_target ?? "",
       location_modes: target.location_modes ?? [],
       locations: (target.locations ?? []).join(", "),
-    })
+    }
+    setEditingId(target.id)
+    setForm(populated)
+    setOriginalForm(populated)
     setError("")
   }
 
@@ -319,6 +328,12 @@ export function RoleTargetStep({ onValidityChange }) {
         </div>
 
         {error && <p className="text-sm text-destructive">{error}</p>}
+
+        {editIsDirty && (
+          <p className="text-sm text-muted-foreground italic">
+            You have unsaved edits to this role target — click Update target to keep them, or Cancel to discard.
+          </p>
+        )}
 
         <Button type="submit" disabled={saving}>
           {saving ? "Saving…" : editingId ? "Update target" : "Save target"}
