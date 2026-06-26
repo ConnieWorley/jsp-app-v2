@@ -8,6 +8,7 @@ import { FollowUpScheduleStep } from "@/components/onboarding/FollowUpScheduleSt
 import { StorybankStep } from "@/components/onboarding/StorybankStep"
 import { JobBoardsStep } from "@/components/onboarding/JobBoardsStep"
 import { IdealCompanyStep } from "@/components/onboarding/IdealCompanyStep"
+import { ResumeLibraryStep } from "@/components/onboarding/ResumeLibraryStep"
 
 const steps = [
   {
@@ -128,6 +129,8 @@ export function OnboardingWizard() {
         return <JobBoardsStep onValidityChange={reportValidity} />
       case "ideal-company":
         return <IdealCompanyStep onValidityChange={reportValidity} />
+      case "resume-library":
+        return <ResumeLibraryStep onValidityChange={reportValidity} />
       default:
         return (
           <p className="text-xs text-muted-foreground italic">
