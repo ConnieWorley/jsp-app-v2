@@ -135,6 +135,32 @@ export function OnboardingWizard() {
     }
   }
 
+  const navButtons = (
+    <div className="flex items-center justify-between">
+      <Button
+        variant="outline"
+        onClick={handleBack}
+        disabled={isFirst || finishing}
+      >
+        <ChevronLeft />
+        Back
+      </Button>
+      <Button onClick={handleNext} disabled={finishing || !currentValid}>
+        {isLast ? (
+          <>
+            {finishing ? "Saving…" : "Finish"}
+            <Check />
+          </>
+        ) : (
+          <>
+            Next
+            <ChevronRight />
+          </>
+        )}
+      </Button>
+    </div>
+  )
+
   return (
     <main className="min-h-screen flex flex-col items-center px-4 py-10">
       <div className="w-full max-w-2xl space-y-6">
@@ -162,6 +188,9 @@ export function OnboardingWizard() {
           </div>
         </div>
 
+        {/* Top nav — mirrors the footer so users do not have to scroll */}
+        {navButtons}
+
         {/* Step intro */}
         <div className="rounded-lg border border-border bg-card p-8 space-y-3">
           <h2 className="font-heading text-3xl text-primary">{step.title}</h2>
@@ -173,32 +202,7 @@ export function OnboardingWizard() {
 
         {/* Footer nav */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Button
-              variant="outline"
-              onClick={handleBack}
-              disabled={isFirst || finishing}
-            >
-              <ChevronLeft />
-              Back
-            </Button>
-            <Button
-              onClick={handleNext}
-              disabled={finishing || !currentValid}
-            >
-              {isLast ? (
-                <>
-                  {finishing ? "Saving…" : "Finish"}
-                  <Check />
-                </>
-              ) : (
-                <>
-                  Next
-                  <ChevronRight />
-                </>
-              )}
-            </Button>
-          </div>
+          {navButtons}
           {!currentValid && (
             <p className="text-sm text-muted-foreground text-right">
               A little more here and you can keep going.
