@@ -7,6 +7,7 @@ import { RoleTargetStep } from "@/components/onboarding/RoleTargetStep"
 import { FollowUpScheduleStep } from "@/components/onboarding/FollowUpScheduleStep"
 import { StorybankStep } from "@/components/onboarding/StorybankStep"
 import { JobBoardsStep } from "@/components/onboarding/JobBoardsStep"
+import { IdealCompanyStep } from "@/components/onboarding/IdealCompanyStep"
 
 const steps = [
   {
@@ -125,6 +126,8 @@ export function OnboardingWizard() {
         return <StorybankStep onValidityChange={reportValidity} />
       case "job-boards":
         return <JobBoardsStep onValidityChange={reportValidity} />
+      case "ideal-company":
+        return <IdealCompanyStep onValidityChange={reportValidity} />
       default:
         return (
           <p className="text-xs text-muted-foreground italic">
